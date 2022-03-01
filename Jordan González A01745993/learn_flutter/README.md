@@ -268,7 +268,7 @@ class _HomeState extends State<Home> {
 
 Our app should be completed and should look like this:
 
-[HERE GOES A PHOTO].
+<img width="448" alt="Screen Shot 2022-02-28 at 20 15 52" src="https://user-images.githubusercontent.com/30836115/156093987-4cb6897a-f748-4483-b73f-c46daf97ae46.png">
 
 Try adding more functionality!
 If you explore the code int he repo, you will notice that I've added a widget to show a bottom sheet, this is triggered as an action in the `AppBar`.
