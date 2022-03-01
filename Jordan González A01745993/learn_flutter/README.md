@@ -128,6 +128,8 @@ A stateful widget allows us to modify data on the go, allowing re-rendering with
 At the beginning of the class `_HomeState`, add the following lines to manage our counter:
 
 ```dart
+// home.dart
+...
 class _HomeState extends State<Home> {
   int counter = 0; // The counter per se.
 
@@ -203,6 +205,7 @@ Padding(
 Our `_HomeState` class should look like the following:
 
 ```dart
+// home.dart
 ...
 class _HomeState extends State<Home> {
   int counter = 0;
