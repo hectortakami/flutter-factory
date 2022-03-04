@@ -279,5 +279,7 @@ class CustomScreen extends StatelessWidget {
 ---
 Sources:
 [Flutter](https://flutter.dev/)
+
 [Icons](https://api.flutter.dev/flutter/material/Icons-class.html)
+
 Retrieved from [Fernando Herrera](https://www.youtube.com/channel/UCuaPTYj15JSkETGnEseaFFg) Youtube tutorials
