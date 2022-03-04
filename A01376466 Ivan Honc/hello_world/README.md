@@ -450,3 +450,6 @@ To run the app we need to:
 - Press F5 and wait until the project finishes compiling and you should be able to see your app.
 
 ## Sneak peek of the app
+![Counter 0](https://user-images.githubusercontent.com/100311454/156825193-075a097c-dcd5-4c3e-9dbf-9bd441be9bee.jpg)
+![Counter -2](https://user-images.githubusercontent.com/100311454/156825195-745c63c8-0771-4407-a517-777cce6797bb.jpg)
+![Counter 5](https://user-images.githubusercontent.com/100311454/156825197-e7bb028b-16ea-4cd6-95ca-ce95ea5d2343.jpg)
