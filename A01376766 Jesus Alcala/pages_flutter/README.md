@@ -1,15 +1,20 @@
 # Page controller app
 
 Tutorial app for learning flutter
+
 Created on Windows
 ---
 
 ## Requisites
 
 Get the [Flutter SDK](https://docs.flutter.dev/get-started/install/windows)
+
 Update your path adding flutter /bin file
+
 Run flutter doctor with the comand >flutter doctor on the terminal
+
 Install [VS code](https://code.visualstudio.com/)
+
 Install [Android Studio](https://developer.android.com/studio?hl=es-419&gclid=Cj0KCQiA64GRBhCZARIsAHOLriIRgsLDUTYpKi5d-BQKNVDQA8JwafFQ03BCqxMbu-VpAw8gkruIYVYaAlI-EALw_wcB&gclsrc=aw.ds) and an Android Studio emulator
 ---
 ## Create a new app
@@ -61,10 +66,14 @@ class MyApp extends StatelessWidget {
 #### Notes:
 
 Scaffold: White canvas  with the screen size
+
 90% of flutter elements are widgets
+
 In this code the body searchs for the child to apply the center widget
 
+
 ### More editing to the template app
+
 The new code should look like this:
 ```dart
 import 'package:flutter/material.dart';
@@ -88,10 +97,15 @@ class MyApp extends StatelessWidget {
 
 ```
 #### Changes made and more notes:
+
 First we import the new screen that we will add at a new file named `screens` inside `lib` named "home_screen.dart"
+
 We remove de "debug" banner
+
 Change the way of declaring thhe appbar and add a theme to it at `theme` 
+
 Extend the widget at the other screen(home_screen.dart)
+
 
 #### Add content to the `home_screen.dart`
 
