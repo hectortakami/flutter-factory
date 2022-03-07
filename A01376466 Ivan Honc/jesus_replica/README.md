@@ -37,7 +37,7 @@ Install [Android Studio](https://developer.android.com/studio?hl=es-419&gclid=Cj
 ## Edit the template app
  
 1. delete all code in "main.dart" file
-2. start writing mateapp and select the first option
+2. start writing mateapp and select the first option  A01376466 - I did not understand this line.
 the new code should look like this:
 ```dart
 import 'package:flutter/material.dart';
@@ -98,7 +98,7 @@ class MyApp extends StatelessWidget {
 ```
 #### Changes made and more notes:
 
-First we import the new screen that we will add at a new file named `screens` inside `lib` named "home_screen.dart"
+First we import the new screen that we will add at a new file named `screens` inside `lib` named "home_screen.dart" A01376466 - Screens is a folder, not a file.
 
 We remove de "debug" banner
 
@@ -172,7 +172,7 @@ bottomNavigationBar: BottomNavigationBar(
   }
 }
 ```
-Add the stateless widget, content to the scaffold, create a container and center the child:
+Add the stateless widget, content to the scaffold, create a container and center the child: A01376466 - It wasn't very clear what scaffold you are talking about.
 ```dart
 class CustomScreen extends StatelessWidget {
   final Color color;
@@ -298,3 +298,5 @@ Sources:
 [Icons](https://api.flutter.dev/flutter/material/Icons-class.html)
 
 Retrieved from [Fernando Herrera](https://www.youtube.com/channel/UCuaPTYj15JSkETGnEseaFFg) Youtube tutorials
+
+A01376466 - I was able to complete the application, just a few minor issues were found in the documentation.
