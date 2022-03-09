@@ -463,4 +463,5 @@ To run the app we need to:
 ![Counter 5](https://user-images.githubusercontent.com/100311454/156825197-e7bb028b-16ea-4cd6-95ca-ce95ea5d2343.jpg)
 ## Note
 >We wouldn't be able to see those screens because we don't have an emulator, we will be watching the same functionality on the internet instead of a virtual device.
-
+![prueba_ivan](https://user-images.githubusercontent.com/30931599/157350258-f5d160ca-1174-49fd-9f94-e8b0563652ad.JPG)
+>This is how is going to look like
