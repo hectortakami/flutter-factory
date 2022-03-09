@@ -1,15 +1,16 @@
 # flutter_application_1
-##Counter App
+## Counter App
 Se pretende hacer un primer acercamiento a el uso del lenguaje de **flutter** para desarrollar un proyecto en colaboración con **google**.
 
 Desarrollaremos a lo largo de este documento la elaboración de una app sencilla con un contador, un poco "tuneada" con diferentes secciones.
 
 
-##Requisitos
+## Requisitos
 ---
 >- Instala [VS Code](https://code.visualstudio.com/).
 >- Instalar [Flutter](https://docs.flutter.dev/get-started/install).
->- Instalar [Android Studio](https://docs.flutter.dev/get-started/install). Dentro de Android Studio es necesario instalar un <a href="C:\Users\joscu\Desktop\10mo semestre\Proyecto integrador\emulador.png">emulador</a>
+>- Instalar [Android Studio](https://docs.flutter.dev/get-started/install). Dentro de Android Studio es necesario instalar un <a href="C:\Users\joscu\Desktop\10mo semestre\Proyecto integrador\emulador.png">emulador</a>![emulador](https://user-images.githubusercontent.com/30931599/156466283-35f5533c-942a-4850-a613-4cb62fb38c59.png)
+
 
 ##Empecemos...
 
@@ -338,6 +339,8 @@ Nos encargamos de crear un nuevo folder llamado *assets* el cual contiene dentro
 Para esto se tuvo que editar el archivo [pubspec.yaml](https://docs.flutter.dev/development/tools/pubspec) dentro del proyecto.
 
 ## 6. Proyecto terminado
+
+![Screenshot_1646106106](https://user-images.githubusercontent.com/30931599/156466242-ecc622da-75a8-4197-b4d2-6939bd5a11a1.png)
 
 ## Otras referencias
 
