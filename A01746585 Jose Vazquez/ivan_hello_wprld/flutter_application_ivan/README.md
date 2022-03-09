@@ -464,3 +464,5 @@ To run the app we need to:
 ## Note
 >We wouldn't be able to see those screens because we don't have an emulator, we will be watching the same functionality on the internet instead of a virtual device.
 
+![prueba_ivan](https://user-images.githubusercontent.com/30931599/157369864-ab3fb038-fb37-4588-8ab7-65e9fb9a018d.JPG)
+>This is how it looks like really.
