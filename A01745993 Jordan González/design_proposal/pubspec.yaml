@@ -58,9 +58,9 @@ flutter:
   fonts:
     - family: ProductSans
       fonts:
-        - asset: fonts/Product-Sans-Italic.ttf
+        - asset: assets/fonts/Product-Sans-Italic.ttf
           style: italic
-        - asset: fonts/Product-Sans-Bold.ttf
+        - asset: assets/fonts/Product-Sans-Bold.ttf
           weight: 700
-        - asset: fonts/Product-Sans-Regular.ttf
+        - asset: assets/fonts/Product-Sans-Regular.ttf
           style: normal
