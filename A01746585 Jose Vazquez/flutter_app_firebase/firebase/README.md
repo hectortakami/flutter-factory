@@ -252,3 +252,15 @@ La aplicación debería ser capáz de agregar datos a Firestore y poder leer dat
 ## Interfaz
 
 Screenshots del resultado final de la interfaz. 
+
+1. Ejemplo de leer datos e introducir datos.
+
+https://github.com/hectortakami/flutter-factory/blob/main/A01746585%20Jose%20Vazquez/flutter_app_firebase/firebase/imagenesReadme/firebase1.png
+
+2. Ejemplo de introducción de datos no válidos.
+
+https://github.com/hectortakami/flutter-factory/blob/main/A01746585%20Jose%20Vazquez/flutter_app_firebase/firebase/imagenesReadme/firebase2.png
+
+3. Tabla de firestore.
+
+https://github.com/hectortakami/flutter-factory/blob/main/A01746585%20Jose%20Vazquez/flutter_app_firebase/firebase/imagenesReadme/tablaFirestore.jpeg
