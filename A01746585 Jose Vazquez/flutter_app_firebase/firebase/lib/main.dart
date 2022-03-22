@@ -38,7 +38,7 @@ class HomeScreen extends StatelessWidget {
             ),
             Container(
                 height: 250,
-                padding: const EdgeInsets.symmetric(vertical: 20),
+                padding: const EdgeInsets.symmetric(vertical: 10),
                 child: StreamBuilder<QuerySnapshot>(
                     stream: users,
                     builder: (
@@ -46,7 +46,7 @@ class HomeScreen extends StatelessWidget {
                       AsyncSnapshot<QuerySnapshot> snapshot,
                     ) {
                       if (snapshot.hasError) {
-                        return Text('Something went worng');
+                        return Text('Something went wrong');
                       }
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return Text('Loading');
@@ -117,36 +117,91 @@ class MyCustomFormState extends State<MyCustomForm> {
               hintText: 'What is your age?',
               labelText: 'Age',
             ),
-            onChanged: (value) {
-              age = int.parse(value);
-            },
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Please enter some text';
               }
               return null;
             },
+            onChanged: (value) {
+              age = int.parse(value);
+            },
           ),
           SizedBox(height: 10),
-          Center(
-            child: ElevatedButton(
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text('Sending Data to Cloud Firestore'),
-                    ),
-                  );
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Deleting Data from Cloud Firestore'),
+                      ),
+                    );
 
-                  users
-                      .add({'name': name, 'age': age})
-                      .then((value) => print('User added'))
-                      .catchError(
-                          (error) => print('Failed to add user: $error'));
-                }
-              },
-              child: Text('Submit'),
-            ),
+                    users
+                        .doc('Usuarios')
+                        .update({
+                          'name': FieldValue.delete(),
+                          'age': FieldValue.delete()
+                        })
+                        .then((value) => print('User Deleted'))
+                        .catchError(
+                            (error) => print('Failed to update user: $error'));
+                  }
+                },
+                child: Text('Delete'),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('Updating Data from Cloud Firestore'),
+                          ),
+                        );
+
+                        users
+                            .doc('Usuarios')
+                            .update({'name': name, 'age': age})
+                            .then((value) => print('User updated'))
+                            .catchError((error) =>
+                                print('Failed to update user: $error'));
+                      }
+                    },
+                    child: Text('Update'),
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content:
+                                    Text('Sending Data to Cloud Firestore'),
+                              ),
+                            );
+
+                            users
+                                .add({'name': name, 'age': age})
+                                .then((value) => print('User added'))
+                                .catchError((error) =>
+                                    print('Failed to add user: $error'));
+                          }
+                        },
+                        child: Text('Submit'),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ],
           ),
         ],
       ),
