@@ -1,8 +1,12 @@
 import 'package:design_proposal/modules/tickets/widgets/ticket_qr.dart';
 import 'package:flutter/material.dart';
 
+import '../../../models/ticket.dart';
+
 class TicketCard extends StatelessWidget {
-  const TicketCard({Key? key}) : super(key: key);
+  final Ticket ticket;
+
+  const TicketCard({Key? key, required this.ticket}) : super(key: key);
 
   dynamic _showQrDialog(BuildContext context) {
     return showDialog(
@@ -12,13 +16,13 @@ class TicketCard extends StatelessWidget {
           children: [
             Expanded(
               child: SimpleDialog(
-                title: Text('Event Name'),
+                title: Text(ticket.eventName),
                 children: [
                   Padding(
-                    padding: EdgeInsets.all(8),
-                    child: Container(
+                    padding: const EdgeInsets.all(8),
+                    child: SizedBox(
                       width: MediaQuery.of(context).size.width,
-                      child: TickerQr(),
+                      child: TickerQr(ticket: ticket),
                     ),
                   ),
                 ],
@@ -35,46 +39,46 @@ class TicketCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(left: 8, right: 8, bottom: 1, top: 1),
+        padding: const EdgeInsets.only(left: 8, right: 8, bottom: 1, top: 1),
         child: GestureDetector(
           onTap: () => _showQrDialog(context),
           child: Card(
-            child: Container(
+            child: SizedBox(
               width: double.infinity,
               child: Column(
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                         left: 16, top: 12, bottom: 12, right: 16),
                     child: Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.qr_code,
                           color: Colors.grey,
                           size: 36,
                         ),
-                        Padding(padding: EdgeInsets.only(right: 8)),
+                        const Padding(padding: EdgeInsets.only(right: 8)),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Event name',
-                                style: TextStyle(
+                            Text(ticket.eventName,
+                                style: const TextStyle(
                                     fontSize: 18, fontFamily: 'ProductSans')),
                             Text(
-                              'Location',
-                              style: TextStyle(color: Colors.grey),
+                              '${ticket.location['state']}, ${ticket.location['city']}',
+                              style: const TextStyle(color: Colors.grey),
                             )
                           ],
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Text('day'.toUpperCase(),
-                                style: TextStyle(
+                            Text('${ticket.date.day}/${ticket.date.month}/${ticket.date.year}'.toUpperCase(),
+                                style: const TextStyle(
                                     fontSize: 12, fontWeight: FontWeight.bold)),
-                            Text('time'.toUpperCase(),
-                                style: TextStyle(
+                            Text('${ticket.date.hour}:${ticket.date.minute}'.toUpperCase(),
+                                style: const TextStyle(
                                     fontSize: 12, fontWeight: FontWeight.bold)),
                           ],
                         )

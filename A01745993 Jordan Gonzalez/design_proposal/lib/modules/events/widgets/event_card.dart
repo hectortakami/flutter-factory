@@ -1,55 +1,50 @@
 import 'package:flutter/material.dart';
 
+import '../../../models/event.dart';
+
 class EventCard extends StatelessWidget {
-  final String title;
-  final String formattedLocation;
-  final String formattedDay;
-  final String formattedTime;
+  final Event event;
 
   const EventCard(
-      {Key? key,
-      required this.title,
-      required this.formattedLocation,
-      required this.formattedDay,
-      required this.formattedTime})
+      {Key? key, required this.event})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(left: 8, right: 8, bottom: 1, top: 1),
+        padding: const EdgeInsets.only(left: 8, right: 8, bottom: 1, top: 1),
         child: Card(
-          child: Container(
+          child: SizedBox(
             width: double.infinity,
             height: MediaQuery.of(context).size.height * 1 / 8,
             child: Column(
               children: <Widget>[
                 Padding(
                   padding:
-                      EdgeInsets.only(left: 16, top: 12, bottom: 12, right: 16),
+                      const EdgeInsets.only(left: 16, top: 12, bottom: 12, right: 16),
                   child: Row(
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(title,
-                              style: TextStyle(
+                          Text(event.name,
+                              style: const TextStyle(
                                   fontSize: 22, fontFamily: 'ProductSans')),
                           Text(
-                            formattedLocation,
-                            style: TextStyle(color: Colors.grey),
+                            '${event.location['state']}, ${event.location['city']}',
+                            style: const TextStyle(color: Colors.grey),
                           )
                         ],
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text(formattedDay.toUpperCase(),
-                              style: TextStyle(
+                          Text('${event.date.day}/${event.date.month}/${event.date.year}',
+                              style: const TextStyle(
                                   fontSize: 12, fontWeight: FontWeight.bold)),
-                          Text(formattedTime.toUpperCase(),
-                              style: TextStyle(
+                          Text('${event.date.hour}:${event.date.minute}',
+                              style: const TextStyle(
                                   fontSize: 12, fontWeight: FontWeight.bold)),
                         ],
                       )

@@ -18,9 +18,9 @@ class _QrScannerState extends State<QrScanner>
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: Text('Ticket Scanner'),
+        title: const Text('Ticket Scanner'),
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios,
             color: Colors.white,
           ),

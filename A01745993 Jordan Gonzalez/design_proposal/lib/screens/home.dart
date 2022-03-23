@@ -17,8 +17,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    const fontSize24 = TextStyle(fontSize: 24);
-
     return Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -31,23 +29,23 @@ class _HomeState extends State<Home> {
           actions: [
             IconButton(
                 onPressed: () => {},
-                icon: Icon(
+                icon: const Icon(
                   Icons.account_circle,
                   size: 32,
                   color: Colors.black,
                 )),
-            Padding(padding: EdgeInsets.only(right: 4)),
+            const Padding(padding: EdgeInsets.only(right: 4)),
           ],
           leading: IconButton(
             onPressed: () => {},
-            icon: Icon(Icons.menu, color: Colors.black, size: 24),
+            icon: const Icon(Icons.menu, color: Colors.black, size: 24),
           ),
         ),
         floatingActionButton: _currentIndex == 1
             ? FloatingActionButton(
                 onPressed: () => {},
                 backgroundColor: Colors.blueAccent,
-                child: Icon(Icons.add),
+                child: const Icon(Icons.add),
               )
             : Container(),
         bottomNavigationBar: BottomNavigationBar(
@@ -58,7 +56,7 @@ class _HomeState extends State<Home> {
           selectedFontSize: 12,
           unselectedFontSize: 12,
           selectedItemColor: Colors.blueAccent,
-          items: [
+          items: const [
             BottomNavigationBarItem(
                 activeIcon: Icon(Icons.event, color: Colors.blueAccent),
                 icon: Icon(Icons.event, color: Colors.grey),
@@ -83,7 +81,7 @@ class _HomeState extends State<Home> {
         ),
         body: IndexedStack(
           index: _currentIndex,
-          children: [UserEvents(), ExploreEvents(), Tickets()],
+          children: [const UserEvents(), ExploreEvents(), Tickets()],
         ));
   }
 }
