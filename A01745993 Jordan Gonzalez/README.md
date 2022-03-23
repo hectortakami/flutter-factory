@@ -1,77 +1,152 @@
 # Design proposal
 
-## General description
-This app was made as a "preview" for the team assigned for the generation and reading of the QR codes in the final app. 
-## Structure of the files in the project
-[![imagen-2022-03-15-211310.png](https://i.postimg.cc/L4NdzJ2s/imagen-2022-03-15-211310.png)](https://postimg.cc/z3bPNXLm)
+This app was made as a "preview" for the team assigned for the generation and reading of the QR codes in the final app.
+
+## Project structure
+```
+.
+├── lib
+│   ├── main.dart               
+│   │
+│   ├── models
+│   │   ├── event.dart
+│   │   └── ticket.dart
+│   │
+│   ├── modules
+│   │   ├── events
+│   │   │   ├── screens
+│   │   │   │   ├── explore_events.dart
+│   │   │   │   ├── single_event.dart
+│   │   │   │   └── user_events.dart
+│   │   │   └── widgets
+│   │   │       ├── assistant_tile.dart
+│   │   │       └── event_card.dart
+│   │   │
+│   │   ├── qr_scanner
+│   │   │   ├── screens
+│   │   │   │   └── qr_scanner.dart
+│   │   │   └── widgets
+│   │   │
+│   │   └── tickets
+│   │       ├── screens
+│   │       │   └── all.dart
+│   │       └── widgets
+│   │           ├── ticket_card.dart
+│   │           └── ticker_qr.dart
+│   │    
+│   │
+│   │
+│   └── screens
+│       └── home.dart
+│
+├── assets
+├── android
+├── ios
+├── test
+├── web
+├── windows
+├── analysis_options.yaml
+├── design_proposal.iml
+├── pubspec.lock
+├── pubspec.yaml
+└── README.md
+```
 ## Description of each file 
+
+### Models
+
+Definitions for every structured element used in the app.
+
+1. `event.dart`
+```dart
+class Event {
+  final String uid;
+  final String name;
+  final String description;
+  final DateTime date;
+  Map<String, dynamic> location;
+  final String ownerId;
+  List<Map<String, dynamic>> participants;
+
+  Event(this.uid, this.name, this.description, this.date, this.location, this.ownerId, this.participants);
+}
+```
+2. `ticket.dart`
+```dart
+class Ticket {
+  final String uid;
+  final String eventId;
+  final String eventName;
+  final DateTime date;
+  Map<String, dynamic> location;
+
+  Ticket(this.uid, this.eventId, this.eventName, this.date, this.location);
+}
+```
+
+
 ### Screens
-1. "explore_events.dart". Here we deploy the events that will be happening readed from the database (future, not implemented yet) as event cards.
+1. `explore_events.dart`. Here we deploy the events that will be happening readed from the database (future, not implemented yet) as event cards.
 ```dart
 import 'package:design_proposal/modules/events/widgets/event_card.dart';
 import 'package:flutter/material.dart';
 
+import '../../../models/event.dart';
+
 class ExploreEvents extends StatelessWidget {
-  const ExploreEvents({Key? key}) : super(key: key);
+  ExploreEvents({Key? key}) : super(key: key);
+
+  final testEvent1 = Event(...);
+  final testEvent2 = Event(...);
+  final testEvent3 = Event(...);
+  final testEvent4 = Event(...);
+  final testEvent5 = Event(...);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: ListView(
-          children: [
-            EventCard(
-              title: 'Google Cloud K8s',
-              formattedLocation: 'Mexico City, MX',
-              formattedDay: 'March 3rd',
-              formattedTime: '16:00 PM',
-            ),
-            EventCard(
-              title: 'Google Recruiting',
-              formattedLocation: 'State of Mexico, MX',
-              formattedDay: 'April 25th',
-              formattedTime: '14:00 PM',
-            ),
-            EventCard(
-              title: 'AWS Serverless',
-              formattedLocation: 'Las Vegas, US',
-              formattedDay: 'June 8th',
-              formattedTime: '12:00 PM',
-            ),
-            EventCard(
-              title: 'Graduation Day',
-              formattedLocation: 'State of Mexico, MX',
-              formattedDay: 'June 25th',
-              formattedTime: '10:00 AM',
-            ),
-          ],
-        ),
+    return Center(
+      child: ListView(
+        children: [
+          EventCard(event: testEvent1),
+          EventCard(event: testEvent2),
+          EventCard(event: testEvent3),
+          EventCard(event: testEvent4),
+          EventCard(event: testEvent5),
+        ],
       ),
     );
   }
 }
+
 ```
-2. "single_event.dart". Here we can see the people who are going to attend to one specific event and it can show each of the QR codes (templates). 
+2. `single_event.dart`. Here we can see the people who are going to attend to one specific event and it can show each of the QR codes (templates). 
 ```dart
 import 'package:design_proposal/modules/events/widgets/assistant_tile.dart';
 import 'package:design_proposal/modules/qr_scanner/screens/qr_scanner.dart';
 import 'package:flutter/material.dart';
 
+import '../../../models/event.dart';
+
 class SingleEvent extends StatefulWidget {
-  const SingleEvent({Key? key}) : super(key: key);
+  final Event event;
+  const SingleEvent({Key? key, required this.event}) : super(key: key);
 
   @override
-  State<SingleEvent> createState() => _SingleEventState();
+  State<SingleEvent> createState() => _SingleEventState(event);
 }
 
 class _SingleEventState extends State<SingleEvent> {
+  final Event event;
+
+  _SingleEventState(this.event);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios,
             color: Colors.black,
           ),
@@ -82,39 +157,39 @@ class _SingleEventState extends State<SingleEvent> {
         actions: [
           IconButton(
               onPressed: () => {},
-              icon: Icon(
+              icon: const Icon(
                 Icons.more_horiz,
                 color: Colors.black,
               )),
         ],
-        title: Text('AWS Serverless',
-            style: TextStyle(color: Colors.black, fontFamily: 'ProductSans')),
+        title: Text(event.name,
+            style: const TextStyle(color: Colors.black, fontFamily: 'ProductSans')),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {
           Navigator.push(context,
-              MaterialPageRoute(builder: (BuildContext context) => QrScanner()))
+              MaterialPageRoute(builder: (BuildContext context) => const QrScanner()))
         },
-        child: Icon(Icons.qr_code),
+        child: const Icon(Icons.qr_code),
         backgroundColor: Colors.blueAccent,
       ),
       body: ListView(
-        children: [
-          Padding(padding: EdgeInsets.only(top: 16)),
-          AssistantTile(name: 'Iván Honc'),
-          AssistantTile(name: 'Ricardo Zambrano'),
-          AssistantTile(name: 'Jordan González')
-        ],
+        children: 
+          event.participants.map((participant) => AssistantTile(name: participant['name'], assistance: participant['assistance'])).toList(),
       ),
     );
   }
 }
+
 ```
-3. "user_events.dart". Here we found ourselves in the "events" tab and when you choose one event the screen created on "single event" is showed.
+
+3. `user_events.dart`. Here we found ourselves in the "events" tab and when you choose one event the screen created on "single event" is showed.
 ```dart
 import 'package:design_proposal/modules/events/screens/single_event.dart';
 import 'package:design_proposal/modules/events/widgets/event_card.dart';
 import 'package:flutter/material.dart';
+
+import '../../../models/event.dart';
 
 class UserEvents extends StatefulWidget {
   const UserEvents({Key? key}) : super(key: key);
@@ -124,34 +199,43 @@ class UserEvents extends StatefulWidget {
 }
 
 class _UserEventsState extends State<UserEvents> {
+  final testEvent = Event(
+      "EventID",
+      "Evento de prueba",
+      "Este evento es para la demostración del miércoles",
+      DateTime.now(),
+      {"city": "Naucalpan", "state": "México"},
+      "IvanH",
+      [
+        {'name': 'Ivan', 'assistance': true},
+        {'name': 'Jesús', 'assistance': true},
+        {'name': 'Ricardo', 'assistance': true},
+        {'name': 'Jordan', 'assistance': true},
+        {'name': 'Antonio', 'assistance': true},
+        {'name': 'Víctor', 'assistance': false}
+      ]);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: ListView(
-          children: [
-            GestureDetector(
-              onTap: () => {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => SingleEvent()))
-              },
-              child: EventCard(
-                title: 'AWS Serverless',
-                formattedLocation: 'Las Vegas, US',
-                formattedDay: 'June 8th',
-                formattedTime: '12:00 PM',
-              ),
-            ),
-          ],
-        ),
+    return Center(
+      child: ListView(
+        children: [
+          GestureDetector(
+            onTap: () => {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          SingleEvent(event: testEvent)))
+            },
+            child: EventCard(event: testEvent),
+          ),
+        ],
       ),
     );
   }
 }
 ```
-4. "home.dart". Declaration of the home screen, main scaffold, nav bar, etc.
+4. `home.dart`. Declaration of the home screen, main scaffold, nav bar, etc.
 ```dart
 import 'package:design_proposal/modules/events/screens/explore_events.dart';
 import 'package:design_proposal/modules/events/screens/user_events.dart';
@@ -243,7 +327,7 @@ class _HomeState extends State<Home> {
   }
 }
 ```
-5. "qr_scanner.dart". This screen will use the phone´s camera and here we can scan a ticket QR code.
+5. `qr_scanner.dart`. This screen will use the phone´s camera and here we can scan a ticket QR code.
 ```dart
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -325,97 +409,99 @@ class _QrScannerState extends State<QrScanner>
 }
 
 ```
-### widgets 
-1. "assistant_tile.dart". This is the widget used on "single event" to deploy the assistants data of an specific event.
+### Widgets 
+1. `assistant_tile.dart`. This is the widget used on "single event" to deploy the assistants data of an specific event.
 ```dart
 import 'package:flutter/material.dart';
 
 class AssistantTile extends StatelessWidget {
   final String name;
-  const AssistantTile({Key? key, required this.name}) : super(key: key);
+  final bool assistance;
+  const AssistantTile({Key? key, required this.name, required this.assistance})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 16, right: 16, bottom: 4, top: 4),
+      padding: const EdgeInsets.only(left: 16, right: 16, bottom: 4, top: 4),
       child: Row(
         children: [
-          Icon(
+          const Icon(
             Icons.account_circle,
             size: 32,
             color: Colors.black,
           ),
           Padding(
-              padding: EdgeInsets.only(left: 8),
+              padding: const EdgeInsets.only(left: 8),
               child: Text(
-                this.name,
-                style: TextStyle(fontSize: 18),
+                name,
+                style: const TextStyle(fontSize: 18),
               )),
-          Spacer(),
-          Icon(
-            Icons.check,
-            color: Colors.black,
-          )
+          const Spacer(),
+          assistance
+              ? const Icon(
+                  Icons.check,
+                  color: Colors.black,
+                )
+              : const Icon(
+                  Icons.cancel,
+                  color: Colors.black,
+                )
         ],
       ),
     );
   }
 }
 ```
-2. "event_card.dart". This widget is used to create a card for each event to be showed.
+2. `event_card.dart`. This widget is used to create a card for each event to be showed.
 ```dart
 import 'package:flutter/material.dart';
 
+import '../../../models/event.dart';
+
 class EventCard extends StatelessWidget {
-  final String title;
-  final String formattedLocation;
-  final String formattedDay;
-  final String formattedTime;
+  final Event event;
 
   const EventCard(
-      {Key? key,
-      required this.title,
-      required this.formattedLocation,
-      required this.formattedDay,
-      required this.formattedTime})
+      {Key? key, required this.event})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(left: 8, right: 8, bottom: 1, top: 1),
+        padding: const EdgeInsets.only(left: 8, right: 8, bottom: 1, top: 1),
         child: Card(
-          child: Container(
+          child: SizedBox(
             width: double.infinity,
             height: MediaQuery.of(context).size.height * 1 / 8,
             child: Column(
               children: <Widget>[
                 Padding(
                   padding:
-                      EdgeInsets.only(left: 16, top: 12, bottom: 12, right: 16),
+                      const EdgeInsets.only(left: 16, top: 12, bottom: 12, right: 16),
                   child: Row(
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(title,
-                              style: TextStyle(
+                          Text(event.name,
+                              style: const TextStyle(
                                   fontSize: 22, fontFamily: 'ProductSans')),
                           Text(
-                            formattedLocation,
-                            style: TextStyle(color: Colors.grey),
+                            '${event.location['state']}, ${event.location['city']}',
+                            style: const TextStyle(color: Colors.grey),
                           )
                         ],
                       ),
-                      Spacer(),
+                      const Spacer(),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text(formattedDay.toUpperCase(),
-                              style: TextStyle(
+                          Text('${event.date.day}/${event.date.month}/${event.date.year}',
+                              style: const TextStyle(
                                   fontSize: 12, fontWeight: FontWeight.bold)),
-                          Text(formattedTime.toUpperCase(),
-                              style: TextStyle(
+                          Text('${event.date.hour}:${event.date.minute}',
+                              style: const TextStyle(
                                   fontSize: 12, fontWeight: FontWeight.bold)),
                         ],
                       )
@@ -429,13 +515,17 @@ class EventCard extends StatelessWidget {
   }
 }
 ```
-3. "ticket_card.dart". At the tickets tab this widget is used to show a event card with the addition that it can show the QR code (next widget) when pressed to enter the event.
+3. `ticket_card.dart`. At the tickets tab this widget is used to show a event card with the addition that it can show the QR code (next widget) when pressed to enter the event.
 ```dart
 import 'package:design_proposal/modules/tickets/widgets/ticket_qr.dart';
 import 'package:flutter/material.dart';
 
+import '../../../models/ticket.dart';
+
 class TicketCard extends StatelessWidget {
-  const TicketCard({Key? key}) : super(key: key);
+  final Ticket ticket;
+
+  const TicketCard({Key? key, required this.ticket}) : super(key: key);
 
   dynamic _showQrDialog(BuildContext context) {
     return showDialog(
@@ -445,13 +535,13 @@ class TicketCard extends StatelessWidget {
           children: [
             Expanded(
               child: SimpleDialog(
-                title: Text('Event Name'),
+                title: Text(ticket.eventName),
                 children: [
                   Padding(
-                    padding: EdgeInsets.all(8),
-                    child: Container(
+                    padding: const EdgeInsets.all(8),
+                    child: SizedBox(
                       width: MediaQuery.of(context).size.width,
-                      child: TickerQr(),
+                      child: TickerQr(ticket: ticket),
                     ),
                   ),
                 ],
@@ -468,46 +558,46 @@ class TicketCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: EdgeInsets.only(left: 8, right: 8, bottom: 1, top: 1),
+        padding: const EdgeInsets.only(left: 8, right: 8, bottom: 1, top: 1),
         child: GestureDetector(
           onTap: () => _showQrDialog(context),
           child: Card(
-            child: Container(
+            child: SizedBox(
               width: double.infinity,
               child: Column(
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(
+                    padding: const EdgeInsets.only(
                         left: 16, top: 12, bottom: 12, right: 16),
                     child: Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.qr_code,
                           color: Colors.grey,
                           size: 36,
                         ),
-                        Padding(padding: EdgeInsets.only(right: 8)),
+                        const Padding(padding: EdgeInsets.only(right: 8)),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Event name',
-                                style: TextStyle(
+                            Text(ticket.eventName,
+                                style: const TextStyle(
                                     fontSize: 18, fontFamily: 'ProductSans')),
                             Text(
-                              'Location',
-                              style: TextStyle(color: Colors.grey),
+                              '${ticket.location['state']}, ${ticket.location['city']}',
+                              style: const TextStyle(color: Colors.grey),
                             )
                           ],
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
-                            Text('day'.toUpperCase(),
-                                style: TextStyle(
+                            Text('${ticket.date.day}/${ticket.date.month}/${ticket.date.year}'.toUpperCase(),
+                                style: const TextStyle(
                                     fontSize: 12, fontWeight: FontWeight.bold)),
-                            Text('time'.toUpperCase(),
-                                style: TextStyle(
+                            Text('${ticket.date.hour}:${ticket.date.minute}'.toUpperCase(),
+                                style: const TextStyle(
                                     fontSize: 12, fontWeight: FontWeight.bold)),
                           ],
                         )
@@ -522,18 +612,22 @@ class TicketCard extends StatelessWidget {
   }
 }
 ```
-4. "ticket_qr". When you press the event card at the ticket tab we need this widget to show the qr code.
+4. `ticket_qr`. When you press the event card at the ticket tab we need this widget to show the qr code.
 ```dart
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
+import '../../../models/ticket.dart';
+
 class TickerQr extends StatelessWidget {
-  const TickerQr({Key? key}) : super(key: key);
+  final Ticket ticket;
+
+  const TickerQr({Key? key, required this.ticket}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return QrImage(
-      data: 'Ticket key/id/whatever goes here',
+      data: 'Ticket ID: ${ticket.uid}\nEvent ID: ${ticket.eventId}\nEvent Name: ${ticket.eventName}\nLocation: ${ticket.location['state']}, ${ticket.location['city']}',
       version: QrVersions.auto,
       size: 320,
       gapless: false,
