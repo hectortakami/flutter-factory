@@ -3,6 +3,7 @@
 This app was made as a "preview" for the team assigned for the generation and reading of the QR codes in the final app.
 
 ## Project structure
+
 ```
 .
 ├── lib
@@ -51,13 +52,15 @@ This app was made as a "preview" for the team assigned for the generation and re
 ├── pubspec.yaml
 └── README.md
 ```
-## Description of each file 
+
+## Description of each file
 
 ### Models
 
 Definitions for every structured element used in the app.
 
 1. `event.dart`
+
 ```dart
 class Event {
   final String uid;
@@ -71,7 +74,9 @@ class Event {
   Event(this.uid, this.name, this.description, this.date, this.location, this.ownerId, this.participants);
 }
 ```
+
 2. `ticket.dart`
+
 ```dart
 class Ticket {
   final String uid;
@@ -84,9 +89,10 @@ class Ticket {
 }
 ```
 
-
 ### Screens
+
 1. `explore_events.dart`. Here we deploy the events that will be happening readed from the database (future, not implemented yet) as event cards.
+
 ```dart
 import 'package:design_proposal/modules/events/widgets/event_card.dart';
 import 'package:flutter/material.dart';
@@ -119,7 +125,9 @@ class ExploreEvents extends StatelessWidget {
 }
 
 ```
-2. `single_event.dart`. Here we can see the people who are going to attend to one specific event and it can show each of the QR codes (templates). 
+
+2. `single_event.dart`. Here we can see the people who are going to attend to one specific event and it can show each of the QR codes (templates).
+
 ```dart
 import 'package:design_proposal/modules/events/widgets/assistant_tile.dart';
 import 'package:design_proposal/modules/qr_scanner/screens/qr_scanner.dart';
@@ -184,6 +192,7 @@ class _SingleEventState extends State<SingleEvent> {
 ```
 
 3. `user_events.dart`. Here we found ourselves in the "events" tab and when you choose one event the screen created on "single event" is showed.
+
 ```dart
 import 'package:design_proposal/modules/events/screens/single_event.dart';
 import 'package:design_proposal/modules/events/widgets/event_card.dart';
@@ -235,7 +244,54 @@ class _UserEventsState extends State<UserEvents> {
   }
 }
 ```
-4. `home.dart`. Declaration of the home screen, main scaffold, nav bar, etc.
+
+4. `all.dart`. Here we found ourselves in the "tickets" tab that shows all the tickets registered.
+
+```dart
+import 'package:design_proposal/modules/tickets/widgets/ticket_card.dart';
+import 'package:flutter/material.dart';
+
+import '../../../models/ticket.dart';
+
+class Tickets extends StatelessWidget {
+  Tickets({Key? key}) : super(key: key);
+
+  final testTicket1 = Ticket(
+      "Ticket1ID",
+      "Event1ID",
+      "Demostración del miércoles",
+      DateTime.now(),
+      {"city": "Naucalpan", "state": "México"},
+      );
+  final testTicket2 = Ticket(
+      "Ticket2ID",
+      "Event2ID",
+      "Planeación del jueves",
+      DateTime.now(),
+      {"city": "Naucalpan", "state": "México"},
+      );
+  final testTicket3 = Ticket(
+      "Ticket3ID",
+      "Event3ID",
+      "Fiesta del viernes",
+      DateTime.now(),
+      {"city": "Naucalpan", "state": "México"},
+      );
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(children: [
+      TicketCard(ticket: testTicket1),
+      TicketCard(ticket: testTicket2),
+      TicketCard(ticket: testTicket3)
+    ]);
+  }
+}
+
+```
+
+5. `home.dart`. Declaration of the home screen, main scaffold, nav bar, etc.
+
 ```dart
 import 'package:design_proposal/modules/events/screens/explore_events.dart';
 import 'package:design_proposal/modules/events/screens/user_events.dart';
@@ -256,8 +312,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    const fontSize24 = TextStyle(fontSize: 24);
-
     return Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -270,23 +324,23 @@ class _HomeState extends State<Home> {
           actions: [
             IconButton(
                 onPressed: () => {},
-                icon: Icon(
+                icon: const Icon(
                   Icons.account_circle,
                   size: 32,
                   color: Colors.black,
                 )),
-            Padding(padding: EdgeInsets.only(right: 4)),
+            const Padding(padding: EdgeInsets.only(right: 4)),
           ],
           leading: IconButton(
             onPressed: () => {},
-            icon: Icon(Icons.menu, color: Colors.black, size: 24),
+            icon: const Icon(Icons.menu, color: Colors.black, size: 24),
           ),
         ),
         floatingActionButton: _currentIndex == 1
             ? FloatingActionButton(
                 onPressed: () => {},
                 backgroundColor: Colors.blueAccent,
-                child: Icon(Icons.add),
+                child: const Icon(Icons.add),
               )
             : Container(),
         bottomNavigationBar: BottomNavigationBar(
@@ -297,7 +351,7 @@ class _HomeState extends State<Home> {
           selectedFontSize: 12,
           unselectedFontSize: 12,
           selectedItemColor: Colors.blueAccent,
-          items: [
+          items: const [
             BottomNavigationBarItem(
                 activeIcon: Icon(Icons.event, color: Colors.blueAccent),
                 icon: Icon(Icons.event, color: Colors.grey),
@@ -322,12 +376,14 @@ class _HomeState extends State<Home> {
         ),
         body: IndexedStack(
           index: _currentIndex,
-          children: [UserEvents(), ExploreEvents(), Tickets()],
+          children: [const UserEvents(), ExploreEvents(), Tickets()],
         ));
   }
 }
 ```
-5. `qr_scanner.dart`. This screen will use the phone´s camera and here we can scan a ticket QR code.
+
+6. `qr_scanner.dart`. This screen will use the phone´s camera and here we can scan a ticket QR code.
+
 ```dart
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -349,9 +405,9 @@ class _QrScannerState extends State<QrScanner>
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: Text('Ticket Scanner'),
+        title: const Text('Ticket Scanner'),
         leading: IconButton(
-          icon: Icon(
+          icon: const Icon(
             Icons.arrow_back_ios,
             color: Colors.white,
           ),
@@ -407,10 +463,12 @@ class _QrScannerState extends State<QrScanner>
     );
   }
 }
-
 ```
-### Widgets 
+
+### Widgets
+
 1. `assistant_tile.dart`. This is the widget used on "single event" to deploy the assistants data of an specific event.
+
 ```dart
 import 'package:flutter/material.dart';
 
@@ -453,7 +511,9 @@ class AssistantTile extends StatelessWidget {
   }
 }
 ```
+
 2. `event_card.dart`. This widget is used to create a card for each event to be showed.
+
 ```dart
 import 'package:flutter/material.dart';
 
@@ -515,7 +575,9 @@ class EventCard extends StatelessWidget {
   }
 }
 ```
+
 3. `ticket_card.dart`. At the tickets tab this widget is used to show a event card with the addition that it can show the QR code (next widget) when pressed to enter the event.
+
 ```dart
 import 'package:design_proposal/modules/tickets/widgets/ticket_qr.dart';
 import 'package:flutter/material.dart';
@@ -612,7 +674,9 @@ class TicketCard extends StatelessWidget {
   }
 }
 ```
+
 4. `ticket_qr`. When you press the event card at the ticket tab we need this widget to show the qr code.
+
 ```dart
 import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
@@ -635,5 +699,51 @@ class TickerQr extends StatelessWidget {
   }
 }
 ```
-### Screens at the app (images)
+
+### Application
+
+`main.dart`. This is the main application class.
+
+```dart
+import 'package:design_proposal/screens/home.dart';
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const App());
+}
+
+class App extends StatelessWidget {
+  const App({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Google Summits',
+      theme: ThemeData(
+        primarySwatch: Colors.pink,
+      ),
+      home: const Home(),
+    );
+  }
+}
+```
+
+### FYI
+
+Dependencies:
+
+- Material
+- Mobile Scanner
+- QR Flutter
+- Firebase core
+
+Points to consider:
+
+- It was necessary to change the SDK minimum version to 21.
+- It was necessary to give permissions to access the camera in iOS.
+- It was necessary to remove non-english characters from the path due to problems to run the code in Windows.
+
+### Screens of the app (images)
+
 [![imagen-2022-03-16-000048.png](https://i.postimg.cc/0QkByKcm/imagen-2022-03-16-000048.png)](https://postimg.cc/Y4P3X0cq)[![imagen-2022-03-16-000121.png](https://i.postimg.cc/8PJncSBy/imagen-2022-03-16-000121.png)](https://postimg.cc/bsPRV45b)[![imagen-2022-03-16-000201.png](https://i.postimg.cc/8zLKdmYM/imagen-2022-03-16-000201.png)](https://postimg.cc/PCrQTYT5)[![imagen-2022-03-16-000232.png](https://i.postimg.cc/VNDF4GWr/imagen-2022-03-16-000232.png)](https://postimg.cc/06KmyC3P)[![imagen-2022-03-16-000259.png](https://i.postimg.cc/pybQygR7/imagen-2022-03-16-000259.png)](https://postimg.cc/T5054Nyq)[![imagen-2022-03-16-000321.png](https://i.postimg.cc/N0JzLfVz/imagen-2022-03-16-000321.png)](https://postimg.cc/5Hz3R1fB)
