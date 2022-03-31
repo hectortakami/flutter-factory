@@ -5,9 +5,7 @@ import '../../../models/event.dart';
 class EventCard extends StatelessWidget {
   final Event event;
 
-  const EventCard(
-      {Key? key, required this.event})
-      : super(key: key);
+  const EventCard({Key? key, required this.event}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +18,8 @@ class EventCard extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Padding(
-                  padding:
-                      const EdgeInsets.only(left: 16, top: 12, bottom: 12, right: 16),
+                  padding: const EdgeInsets.only(
+                      left: 16, top: 12, bottom: 12, right: 16),
                   child: Row(
                     children: [
                       Column(
@@ -31,7 +29,7 @@ class EventCard extends StatelessWidget {
                               style: const TextStyle(
                                   fontSize: 22, fontFamily: 'ProductSans')),
                           Text(
-                            '${event.location['state']}, ${event.location['city']}',
+                            '${event.address['state']}, ${event.address['city']}',
                             style: const TextStyle(color: Colors.grey),
                           )
                         ],
@@ -40,7 +38,8 @@ class EventCard extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text('${event.date.day}/${event.date.month}/${event.date.year}',
+                          Text(
+                              '${event.date.day}/${event.date.month}/${event.date.year}',
                               style: const TextStyle(
                                   fontSize: 12, fontWeight: FontWeight.bold)),
                           Text('${event.date.hour}:${event.date.minute}',
