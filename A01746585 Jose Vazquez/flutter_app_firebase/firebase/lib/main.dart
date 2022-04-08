@@ -32,7 +32,7 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'Read Data from Cloud Firestore',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
             ),
@@ -62,7 +62,7 @@ class HomeScreen extends StatelessWidget {
                         },
                       );
                     })),
-            Text(
+            const Text(
               'Write Data from Cloud Firestore',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
             ),
@@ -123,8 +123,8 @@ class MyCustomFormState extends State<MyCustomForm> {
               }
               return null;
             },
-            onChanged: (value) {
-              age = int.parse(value);
+            onChanged: (value) async {
+              age = value.isNotEmpty ? int.tryParse(value)! : 0;
             },
           ),
           SizedBox(height: 10),
@@ -132,23 +132,20 @@ class MyCustomFormState extends State<MyCustomForm> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
+                      const SnackBar(
                         content: Text('Deleting Data from Cloud Firestore'),
                       ),
                     );
+                    var values =
+                        await users.where('name', isEqualTo: name).get();
 
-                    users
-                        .doc('Usuarios')
-                        .update({
-                          'name': FieldValue.delete(),
-                          'age': FieldValue.delete()
-                        })
-                        .then((value) => print('User Deleted'))
-                        .catchError(
-                            (error) => print('Failed to update user: $error'));
+                    if (values.docs.isNotEmpty) {
+                      var user = values.docs[0];
+                      users.doc(user.id).delete();
+                    }
                   }
                 },
                 child: Text('Delete'),
@@ -160,7 +157,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                             content: Text('Updating Data from Cloud Firestore'),
                           ),
                         );
@@ -182,7 +179,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
+                              const SnackBar(
                                 content:
                                     Text('Sending Data to Cloud Firestore'),
                               ),
