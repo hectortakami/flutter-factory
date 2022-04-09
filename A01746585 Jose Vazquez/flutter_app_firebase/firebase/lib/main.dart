@@ -154,22 +154,30 @@ class MyCustomFormState extends State<MyCustomForm> {
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('Updating Data from Cloud Firestore'),
                           ),
                         );
+                        var values =
+                            await users.where('name', isEqualTo: name).get();
 
-                        users
-                            .doc('Usuarios')
-                            .update({'name': name, 'age': age})
-                            .then((value) => print('User updated'))
-                            .catchError((error) =>
-                                print('Failed to update user: $error'));
+                        if (values.docs.isNotEmpty) {
+                          var user = values.docs[0];
+                          users.doc(user.id).update({'name': name, 'age': age});
+                        }
                       }
                     },
+                    //users
+                    // .doc('Usuarios')
+                    //  .update({'name': name, 'age': age})
+                    //  .then((value) => print('User updated'))
+                    //  .catchError((error) =>
+                    //     print('Failed to update user: $error'));
+                    //}
+                    //},
                     child: Text('Update'),
                   ),
                   Column(
