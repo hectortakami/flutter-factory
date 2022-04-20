@@ -13,13 +13,13 @@ class UserEvents extends StatefulWidget {
 
 class _UserEventsState extends State<UserEvents> {
   final testEvent = Event(
-      "EventID",
-      "Evento de prueba",
-      "Este evento es para la demostración del miércoles",
-      DateTime.now(),
-      {"city": "Naucalpan", "state": "México"},
-      "IvanH",
-      [
+      uid: "EventID",
+      name: "Evento de prueba",
+      description: "Este evento es para la demostración del miércoles",
+      date: DateTime.now(),
+      address: {"city": "Naucalpan", "state": "México"},
+      ownerUid: "IvanH",
+      participants: [
         {'name': 'Ivan', 'assistance': true},
         {'name': 'Jesús', 'assistance': true},
         {'name': 'Ricardo', 'assistance': true},
