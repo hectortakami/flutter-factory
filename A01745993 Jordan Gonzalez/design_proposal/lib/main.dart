@@ -1,6 +1,9 @@
+import 'package:design_proposal/modules/core/login.dart';
+import 'package:design_proposal/providers/auth_provider.dart';
 import 'package:design_proposal/screens/home.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -8,7 +11,12 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const App());
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider<AuthProvider>(create: (context) => AuthProvider())
+    ],
+    child: const App(),
+  ));
 }
 
 class App extends StatelessWidget {
@@ -16,13 +24,14 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final auth = Provider.of<AuthProvider>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Google Summits',
       theme: ThemeData(
         primarySwatch: Colors.pink,
       ),
-      home: const Home(),
+      home: auth.status == Status.Authenticated ? Home() : Login(),
     );
   }
 }

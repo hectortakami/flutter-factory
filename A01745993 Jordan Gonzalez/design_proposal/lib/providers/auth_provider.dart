@@ -14,10 +14,11 @@ class AuthProvider extends ChangeNotifier {
   late FirebaseAuth _auth;
 
   Status _status = Status.Uninitialized;
+  GS.User? _user;
 
   Status get status => _status;
 
-  Stream<GS.User> get user => _auth.authStateChanges().map(_userFromFirebase);
+  GS.User? get user => _user;
 
   AuthProvider() {
     _auth = FirebaseAuth.instance;
@@ -29,34 +30,39 @@ class AuthProvider extends ChangeNotifier {
     if (firebaseUser == null) {
       _status = Status.Unauthenticated;
     } else {
-      _userFromFirebase(firebaseUser);
+      _user = _userFromFirebase(firebaseUser);
       _status = Status.Authenticated;
     }
+    notifyListeners();
   }
 
-  GS.User _userFromFirebase(User? firebaseUser) {
+  GS.User? _userFromFirebase(User? firebaseUser) {
     if (firebaseUser == null) {
-      return GS.User(uid: 'null', displayName: 'null');
+      return null;
     }
     return GS.User.fromFirebase(firebaseUser);
   }
 
   Future<void> signInWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    try {
+      // Trigger the authentication flow
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
 
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
 
-    // Once signed in, return the UserCredential
-    await _auth.signInWithCredential(credential);
+      // Once signed in, return the UserCredential
+      await _auth.signInWithCredential(credential);
+    } on FirebaseAuthException catch (error) {
+      print(error);
+    }
   }
 
   Future<void> signOut() async {

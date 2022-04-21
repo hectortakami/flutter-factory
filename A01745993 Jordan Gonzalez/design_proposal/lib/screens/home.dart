@@ -1,7 +1,9 @@
 import 'package:design_proposal/modules/events/screens/explore_events.dart';
 import 'package:design_proposal/modules/events/screens/user_events.dart';
 import 'package:design_proposal/modules/tickets/screens/all.dart';
+import 'package:design_proposal/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -28,7 +30,7 @@ class _HomeState extends State<Home> {
           elevation: 0,
           actions: [
             IconButton(
-                onPressed: () => {},
+                onPressed: () => _buildUserMenuBottomSheet(context),
                 icon: const Icon(
                   Icons.account_circle,
                   size: 32,
@@ -83,5 +85,32 @@ class _HomeState extends State<Home> {
           index: _currentIndex,
           children: [const UserEvents(), ExploreEvents(), Tickets()],
         ));
+  }
+
+  void _buildUserMenuBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          final auth = Provider.of<AuthProvider>(context);
+          return Wrap(
+            alignment: WrapAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              ListTile(
+                title: Text('Log out'),
+                onTap: () => {
+                  Navigator.pop(context),
+                  auth.signOut(),
+                },
+              ),
+              ListTile(
+                title: Text(''),
+              ),
+              Divider(
+                color: Colors.transparent,
+              )
+            ],
+          );
+        });
   }
 }
