@@ -21,8 +21,7 @@ class Event {
   factory Event.fromMap(Map<String, dynamic> data, String uid) {
     String name = data['name'];
     String description = data['description'];
-    DateTime date =
-        DateTime.fromMillisecondsSinceEpoch(int.parse(data['date']));
+    DateTime date = data['date'].toDate();
     String ownerUid = data['ownerUid'];
     List<Map<String, dynamic>> participants = [];
 

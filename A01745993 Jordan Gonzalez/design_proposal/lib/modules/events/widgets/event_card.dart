@@ -42,7 +42,8 @@ class EventCard extends StatelessWidget {
                               '${event.date.day}/${event.date.month}/${event.date.year}',
                               style: const TextStyle(
                                   fontSize: 12, fontWeight: FontWeight.bold)),
-                          Text('${event.date.hour}:${event.date.minute}',
+                          Text(
+                              '${event.date.hour}:${event.date.minute.toString().padRight(2, '0')}',
                               style: const TextStyle(
                                   fontSize: 12, fontWeight: FontWeight.bold)),
                         ],

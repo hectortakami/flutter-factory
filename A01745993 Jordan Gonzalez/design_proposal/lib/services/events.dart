@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:design_proposal/models/event.dart';
 import 'package:design_proposal/services/firebase/firestore_client.dart';
 import 'package:design_proposal/services/firebase/firestore_paths.dart';
@@ -31,4 +32,19 @@ class EventsService {
       _firestoreService.collectionStream(
           path: FirestorePath.events(),
           builder: (data, uid) => Event.fromMap(data, uid));
+
+  Stream<List<Event>> listUserEventsAsStream(String userUid) {
+    Query query = FirebaseFirestore.instance
+        .collection(FirestorePath.events())
+        .where('ownerUid', isEqualTo: userUid);
+    final Stream<QuerySnapshot> snapshots = query.snapshots();
+    return snapshots.map((snapshot) {
+      final result = snapshot.docs
+          .map((snapshot) => Event.fromMap(
+              snapshot.data() as Map<String, dynamic>, snapshot.id))
+          .where((value) => value != null)
+          .toList();
+      return result;
+    });
+  }
 }
