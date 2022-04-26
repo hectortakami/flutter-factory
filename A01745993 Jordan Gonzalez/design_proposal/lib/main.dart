@@ -31,7 +31,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.pink,
       ),
-      home: auth.status == Status.Authenticated ? Home() : Login(),
+      home: auth.status == Status.authenticated ? const Home() : const Login(),
     );
   }
 }

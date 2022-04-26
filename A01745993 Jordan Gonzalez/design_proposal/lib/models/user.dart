@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart' as FB;
+import 'package:firebase_auth/firebase_auth.dart' as fb;
 
 class User {
   String uid;
@@ -14,7 +14,7 @@ class User {
       this.phoneNumber,
       this.photoUrl});
 
-  factory User.fromFirebase(FB.User? firebaseUser) {
+  factory User.fromFirebase(fb.User? firebaseUser) {
     return User(
         uid: firebaseUser!.uid,
         email: firebaseUser.email,

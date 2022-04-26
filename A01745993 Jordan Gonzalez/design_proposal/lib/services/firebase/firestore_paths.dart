@@ -1,6 +1,4 @@
-/**
- * This class represents every possible path in our Cloud Firestore.
- */
+/// This class represents every possible path in our Cloud Firestore.
 class FirestorePath {
   static String event(String uid) => 'events/$uid';
   static String events() => 'events';

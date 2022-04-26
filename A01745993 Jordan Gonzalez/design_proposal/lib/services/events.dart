@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:design_proposal/models/event.dart';
@@ -8,10 +10,8 @@ import 'package:design_proposal/services/firebase/firestore_paths.dart';
  * Inspired by: https://github.com/KenAragorn/create_flutter_provider_app
  */
 
-/**
- * TODO: Add documentation
- * 
- */
+/// TODO: Add documentation
+
 class EventsService {
   EventsService();
 

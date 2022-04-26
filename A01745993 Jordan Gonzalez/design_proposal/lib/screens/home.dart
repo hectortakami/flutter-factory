@@ -19,6 +19,14 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    var profilePicture = "";
+
+    final auth = Provider.of<AuthProvider>(context);
+
+    if (auth.user != null && auth.user!.photoUrl!.isNotEmpty) {
+        profilePicture = auth.user!.photoUrl!;
+    }
+
     return Scaffold(
         appBar: AppBar(
           title: const Text(
@@ -31,11 +39,7 @@ class _HomeState extends State<Home> {
           actions: [
             IconButton(
                 onPressed: () => _buildUserMenuBottomSheet(context),
-                icon: const Icon(
-                  Icons.account_circle,
-                  size: 32,
-                  color: Colors.black,
-                )),
+                icon:  Image.network(profilePicture)),
             const Padding(padding: EdgeInsets.only(right: 4)),
           ],
           leading: IconButton(
@@ -92,21 +96,22 @@ class _HomeState extends State<Home> {
         context: context,
         builder: (context) {
           final auth = Provider.of<AuthProvider>(context);
+
           return Wrap(
             alignment: WrapAlignment.center,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               ListTile(
-                title: Text('Log out'),
+                title: const Text('Log out'),
                 onTap: () => {
                   Navigator.pop(context),
                   auth.signOut(),
                 },
               ),
-              ListTile(
+              const ListTile(
                 title: Text(''),
               ),
-              Divider(
+              const Divider(
                 color: Colors.transparent,
               )
             ],

@@ -21,12 +21,12 @@ class Login extends StatelessWidget {
               style: TextStyle(
                   color: Colors.grey, fontFamily: 'ProductSans', fontSize: 24),
             ),
-            Spacer(),
+            const Spacer(),
             Padding(
               padding: const EdgeInsets.all(16),
               child: AnimatedSwitcher(
                 duration: const Duration(milliseconds: 200),
-                child: auth.status == Status.Uninitialized
+                child: auth.status == Status.uninitialized
                     ? Container(
                         color: Colors.grey[200],
                         height: 50,
