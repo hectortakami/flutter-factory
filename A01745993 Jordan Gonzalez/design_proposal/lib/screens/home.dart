@@ -54,7 +54,7 @@ class _HomeState extends State<Home> {
             icon: const Icon(Icons.menu, color: Colors.black, size: 24),
           ),
         ),
-        floatingActionButton: _currentIndex == 1
+        floatingActionButton: _currentIndex == 0
             ? FloatingActionButton(
                 onPressed: () => {},
                 backgroundColor: Colors.blueAccent,

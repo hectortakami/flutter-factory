@@ -16,21 +16,7 @@ class UserEvents extends StatefulWidget {
 
 class _UserEventsState extends State<UserEvents> {
   final eventService = EventsService();
-  final testEvent = Event(
-      uid: "EventID",
-      name: "Evento de prueba",
-      description: "Este evento es para la demostración del miércoles",
-      date: DateTime.now(),
-      address: {"city": "Naucalpan", "state": "México"},
-      ownerUid: "IvanH",
-      participants: [
-        {'name': 'Ivan', 'assistance': true},
-        {'name': 'Jesús', 'assistance': true},
-        {'name': 'Ricardo', 'assistance': true},
-        {'name': 'Jordan', 'assistance': true},
-        {'name': 'Antonio', 'assistance': true},
-        {'name': 'Víctor', 'assistance': false}
-      ]);
+
   @override
   Widget build(BuildContext context) {
     final auth = Provider.of<AuthProvider>(context);
