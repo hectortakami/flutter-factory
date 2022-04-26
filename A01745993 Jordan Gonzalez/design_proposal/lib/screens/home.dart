@@ -19,12 +19,12 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    var profilePicture = "";
+    String profilePicture = "";
 
     final auth = Provider.of<AuthProvider>(context);
 
     if (auth.user != null && auth.user!.photoUrl!.isNotEmpty) {
-        profilePicture = auth.user!.photoUrl!;
+      profilePicture = auth.user!.photoUrl!;
     }
 
     return Scaffold(
@@ -38,8 +38,15 @@ class _HomeState extends State<Home> {
           elevation: 0,
           actions: [
             IconButton(
-                onPressed: () => _buildUserMenuBottomSheet(context),
-                icon:  Image.network(profilePicture)),
+              onPressed: () => _buildUserMenuBottomSheet(context),
+              icon: ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: Image.network(
+                  profilePicture,
+                  scale: 0.1,
+                ),
+              ),
+            ),
             const Padding(padding: EdgeInsets.only(right: 4)),
           ],
           leading: IconButton(
