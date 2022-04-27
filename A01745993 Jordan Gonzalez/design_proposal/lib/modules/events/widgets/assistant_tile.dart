@@ -1,10 +1,9 @@
+import 'package:design_proposal/models/ticket.dart';
 import 'package:flutter/material.dart';
 
 class AssistantTile extends StatelessWidget {
-  final String name;
-  final bool assistance;
-  const AssistantTile({Key? key, required this.name, required this.assistance})
-      : super(key: key);
+  final Ticket ticket;
+  const AssistantTile({Key? key, required this.ticket}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,17 +19,17 @@ class AssistantTile extends StatelessWidget {
           Padding(
               padding: const EdgeInsets.only(left: 8),
               child: Text(
-                name,
+                '${ticket.holder['name']} ${ticket.holder['lastname']}',
                 style: const TextStyle(fontSize: 18),
               )),
           const Spacer(),
-          assistance
+          ticket.attendance
               ? const Icon(
                   Icons.check,
                   color: Colors.black,
                 )
               : const Icon(
-                  Icons.cancel,
+                  Icons.close,
                   color: Colors.black,
                 )
         ],

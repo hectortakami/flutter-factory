@@ -1,5 +1,7 @@
+import 'package:design_proposal/models/ticket.dart';
 import 'package:design_proposal/modules/events/widgets/assistant_tile.dart';
 import 'package:design_proposal/modules/qr_scanner/screens/qr_scanner.dart';
+import 'package:design_proposal/services/tickets.dart';
 import 'package:flutter/material.dart';
 
 import '../../../models/event.dart';
@@ -19,6 +21,8 @@ class _SingleEventState extends State<SingleEvent> {
 
   @override
   Widget build(BuildContext context) {
+    final TicketsService ticketsService = TicketsService();
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -40,19 +44,44 @@ class _SingleEventState extends State<SingleEvent> {
               )),
         ],
         title: Text(event.name,
-            style: const TextStyle(color: Colors.black, fontFamily: 'ProductSans')),
+            style: const TextStyle(
+                color: Colors.black, fontFamily: 'ProductSans')),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (BuildContext context) => const QrScanner()))
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => const QrScanner()))
         },
         child: const Icon(Icons.qr_code),
         backgroundColor: Colors.blueAccent,
       ),
-      body: ListView(
-        children: []
-          // event.participants.map((participant) => AssistantTile(name: participant['name'], assistance: participant['assistance'])).toList(),
+      body: StreamBuilder(
+        stream: ticketsService.listEventTicketsAsStream(event.uid!),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<Ticket> tickets = snapshot.data as List<Ticket>;
+            if (tickets.isNotEmpty) {
+              return ListView.separated(
+                itemCount: tickets.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () => {},
+                    child: AssistantTile(ticket: tickets[index]),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return Divider(height: 0.5);
+                },
+              );
+            } else {
+              return Container();
+            }
+          } else {
+            return Container();
+          }
+        },
       ),
     );
   }

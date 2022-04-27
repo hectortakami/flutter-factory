@@ -56,4 +56,22 @@ class TicketsService {
       return result;
     });
   }
+
+  Stream<List<Ticket>> listEventTicketsAsStream(String eventUid) {
+    Query ticketsQuery = FirebaseFirestore.instance
+        .collection(FirestorePath.tickets())
+        .where('eventUid', isEqualTo: eventUid);
+    final Stream<QuerySnapshot> snapshots = ticketsQuery.snapshots();
+
+    return snapshots.map((snapshot) {
+      final result = snapshot.docs
+          .map((snapshot) {
+            Map<String, dynamic> data = snapshot.data() as Map<String, dynamic>;
+            return Ticket.fromMap(data: data, uid: snapshot.id);
+          })
+          .where((value) => value != null)
+          .toList();
+      return result;
+    });
+  }
 }
