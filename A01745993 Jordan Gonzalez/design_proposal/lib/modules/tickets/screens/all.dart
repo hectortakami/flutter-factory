@@ -1,39 +1,44 @@
 import 'package:design_proposal/modules/tickets/widgets/ticket_card.dart';
+import 'package:design_proposal/providers/auth_provider.dart';
+import 'package:design_proposal/services/tickets.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../models/ticket.dart';
 
 class Tickets extends StatelessWidget {
   Tickets({Key? key}) : super(key: key);
 
-  final testTicket1 = Ticket(
-      "Ticket1ID",
-      "Event1ID",
-      "Demostración del miércoles",
-      DateTime.now(),
-      {"city": "Naucalpan", "state": "México"},
-      );
-  final testTicket2 = Ticket(
-      "Ticket2ID",
-      "Event2ID",
-      "Planeación del jueves",
-      DateTime.now(),
-      {"city": "Naucalpan", "state": "México"},
-      );
-  final testTicket3 = Ticket(
-      "Ticket3ID",
-      "Event3ID",
-      "Fiesta del viernes",
-      DateTime.now(),
-      {"city": "Naucalpan", "state": "México"},
-      );
+  final TicketsService ticketsService = TicketsService();
 
   @override
   Widget build(BuildContext context) {
-    return ListView(children: [
-      TicketCard(ticket: testTicket1),
-      TicketCard(ticket: testTicket2),
-      TicketCard(ticket: testTicket3)
-    ]);
+    final auth = Provider.of<AuthProvider>(context);
+
+    return StreamBuilder(
+        stream: ticketsService.listUserTicketsAsStream(auth.user!.uid),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<Ticket> tickets = snapshot.data as List<Ticket>;
+            if (tickets.isNotEmpty) {
+              return ListView.separated(
+                itemCount: tickets.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () => {},
+                    child: TicketCard(ticket: tickets[index]),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return Divider(height: 0.5);
+                },
+              );
+            } else {
+              return Container();
+            }
+          } else {
+            return Container();
+          }
+        });
   }
 }

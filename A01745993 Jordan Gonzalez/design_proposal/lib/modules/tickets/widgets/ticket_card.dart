@@ -1,3 +1,4 @@
+import 'package:design_proposal/models/event.dart';
 import 'package:design_proposal/modules/tickets/widgets/ticket_qr.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,10 @@ class TicketCard extends StatelessWidget {
           children: [
             Expanded(
               child: SimpleDialog(
-                title: Text(ticket.eventName),
+                title: Text(
+                  '${ticket.holder['name']} ${ticket.holder['lastname']}',
+                  textAlign: TextAlign.center,
+                ), //ticket.eventName),
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(8),
@@ -24,6 +28,10 @@ class TicketCard extends StatelessWidget {
                       width: MediaQuery.of(context).size.width,
                       child: TickerQr(ticket: ticket),
                     ),
+                  ),
+                  Text(
+                    ticket.uid,
+                    textAlign: TextAlign.center,
                   ),
                 ],
                 elevation: 5,
@@ -38,57 +46,75 @@ class TicketCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: const EdgeInsets.only(left: 8, right: 8, bottom: 1, top: 1),
-        child: GestureDetector(
-          onTap: () => _showQrDialog(context),
-          child: Card(
-            child: SizedBox(
-              width: double.infinity,
-              child: Column(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        left: 16, top: 12, bottom: 12, right: 16),
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.qr_code,
-                          color: Colors.grey,
-                          size: 36,
+    return StreamBuilder(
+      stream: ticket.event!,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          Event event = snapshot.data as Event;
+          return Padding(
+              padding:
+                  const EdgeInsets.only(left: 8, right: 8, bottom: 1, top: 1),
+              child: GestureDetector(
+                onTap: () => _showQrDialog(context),
+                child: Card(
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 16, top: 12, bottom: 12, right: 16),
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.qr_code,
+                                color: Colors.grey,
+                                size: 36,
+                              ),
+                              const Padding(padding: EdgeInsets.only(right: 8)),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(event.name,
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          fontFamily: 'ProductSans')),
+                                  Text(
+                                    '${ticket.holder['name']} ${ticket.holder['lastname']}',
+                                    style: const TextStyle(color: Colors.grey),
+                                  )
+                                ],
+                              ),
+                              const Spacer(),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                      '${event.date.day}/${event.date.month}/${event.date.year}'
+                                          .toUpperCase(),
+                                      style: const TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold)),
+                                  Text(
+                                      '${event.date.hour}:${event.date.minute.toString().padRight(2, '0')}'
+                                          .toUpperCase(),
+                                      style: const TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.bold)),
+                                ],
+                              )
+                            ],
+                          ),
                         ),
-                        const Padding(padding: EdgeInsets.only(right: 8)),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(ticket.eventName,
-                                style: const TextStyle(
-                                    fontSize: 18, fontFamily: 'ProductSans')),
-                            Text(
-                              '${ticket.location['state']}, ${ticket.location['city']}',
-                              style: const TextStyle(color: Colors.grey),
-                            )
-                          ],
-                        ),
-                        const Spacer(),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text('${ticket.date.day}/${ticket.date.month}/${ticket.date.year}'.toUpperCase(),
-                                style: const TextStyle(
-                                    fontSize: 12, fontWeight: FontWeight.bold)),
-                            Text('${ticket.date.hour}:${ticket.date.minute}'.toUpperCase(),
-                                style: const TextStyle(
-                                    fontSize: 12, fontWeight: FontWeight.bold)),
-                          ],
-                        )
                       ],
                     ),
                   ),
-                ],
-              ),
-            ),
-          ),
-        ));
+                ),
+              ));
+        } else {
+          return Container();
+        }
+      },
+    );
   }
 }
