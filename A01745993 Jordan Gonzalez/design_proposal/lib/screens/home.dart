@@ -14,8 +14,106 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _currentIndex = 1;
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   void _selectIndex(int index) => setState(() => {_currentIndex = index});
+
+  Future<void> showEventForm(BuildContext context) async {
+    return await showDialog(
+        context: context,
+        builder: (context) {
+          final TextEditingController textEditingController =
+              TextEditingController();
+
+          return AlertDialog(
+              content: Form(
+                  key: formKey,
+                  child: SingleChildScrollView(
+                    child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                    const Text(
+                      'Event Form',
+                      style: TextStyle(
+                          color: Colors.grey, fontFamily: 'ProductSans'),
+                    ),
+                    const SizedBox(height: 25),
+                    TextFormField(
+                      controller: textEditingController,
+                      validator: (value) {
+                        return value!.isEmpty ? 'Missing field' : null;
+                      },
+                      decoration: const InputDecoration(hintText: 'Event name'),
+                    ),
+                    const SizedBox(height: 18),
+                    InputDatePickerFormField(firstDate: DateTime.now(), lastDate: DateTime(DateTime.now().year+10)),
+                    const SizedBox(height: 18),
+                    TextFormField(
+                      controller: textEditingController,  // add this line.
+                      decoration: const InputDecoration(
+                        labelText: 'Event Time',
+                      ),
+                      onTap: () async {
+                        TimeOfDay time = TimeOfDay.now();
+                        FocusScope.of(context).requestFocus(new FocusNode());
+                  
+                        TimeOfDay? picked = await showTimePicker(context: context, initialTime: time);
+                        if (picked != null && picked != time) {
+                          textEditingController.text = picked.toString();  // add this line.
+                          setState(() {
+                            time = picked;
+                          });
+                        }
+                      },
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return 'cant be empty';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 18),
+                    TextFormField(
+                      controller: textEditingController,
+                      validator: (value) {
+                        return value!.isEmpty ? 'Missing field' : null;
+                      },
+                      decoration:
+                          const InputDecoration(hintText: 'Event description'),
+                    ),
+                    const SizedBox(height: 18),
+                    TextFormField(
+                      controller: textEditingController,
+                      validator: (value) {
+                        return value!.isEmpty ? 'Missing field' : null;
+                      },
+                      decoration:
+                          const InputDecoration(hintText: 'Location: State'),
+                    ),
+                    const SizedBox(height: 18),
+                    TextFormField(
+                      controller: textEditingController,
+                      validator: (value) {
+                        return value!.isEmpty ? 'Missing field' : null;
+                      },
+                      decoration:
+                          const InputDecoration(hintText: 'Location: City'),
+                    ),
+                                  ],
+                                ),
+                  )),
+              actions: <Widget>[
+                TextButton(
+                    onPressed: () {
+                      if(formKey.currentState!.validate()) {
+                        formKey.currentState!.save();
+                        Navigator.of(context).pop();
+                      }
+                    },
+                    child: const Text('Create Event'))
+              ]);
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +154,9 @@ class _HomeState extends State<Home> {
         ),
         floatingActionButton: _currentIndex == 0
             ? FloatingActionButton(
-                onPressed: () => {},
+                onPressed: () async {
+                  await showEventForm(context);
+                },
                 backgroundColor: Colors.blueAccent,
                 child: const Icon(Icons.add),
               )
