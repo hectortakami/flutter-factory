@@ -157,10 +157,7 @@ class _HomeState extends State<Home> {
                             ":00");
                         TimeOfDay time = TimeOfDay.now();
 
-                        final event = Event(
-                            uid: nameController.text +
-                                "_" +
-                                dt.microsecondsSinceEpoch.toString(),
+                        final Event event = Event(
                             name: nameController.text,
                             description: descriptionController.text,
                             date: dt,
@@ -170,7 +167,7 @@ class _HomeState extends State<Home> {
                             },
                             ownerUid: auth.user!.uid);
 
-                        eventService.setEvent(event);
+                        eventService.addEvent(event);
                         Navigator.of(context).pop();
                       }
                     },

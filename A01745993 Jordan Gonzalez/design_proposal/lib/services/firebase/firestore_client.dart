@@ -10,7 +10,15 @@ class FirestoreClient {
   FirestoreClient._();
   static final instance = FirestoreClient._();
 
-  /// Add a document to a collection given its path.
+  /// Add a document to a collection given its path
+  Future<void> add(
+      {required String path, required Map<String, dynamic> document}) async {
+    final CollectionReference reference =
+        FirebaseFirestore.instance.collection(path);
+    await reference.add(document);
+  }
+
+  /// Update a document to a collection given its path.
   Future<void> set({
     required String path,
     required Map<String, dynamic> document,

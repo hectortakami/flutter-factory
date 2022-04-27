@@ -17,11 +17,14 @@ class EventsService {
 
   final _firestoreService = FirestoreClient.instance;
 
+  Future<void> addEvent(Event event) async => await _firestoreService.add(
+      path: FirestorePath.events(), document: event.toMap());
+
   Future<void> setEvent(Event event) async => await _firestoreService.set(
-      path: FirestorePath.event(event.uid), document: event.toMap());
+      path: FirestorePath.event(event.uid!), document: event.toMap());
 
   Future<void> deleteEvent(Event event) async =>
-      await _firestoreService.delete(path: FirestorePath.event(event.uid));
+      await _firestoreService.delete(path: FirestorePath.event(event.uid!));
 
   Stream<Event> getEventAsStream(String uid) =>
       _firestoreService.documentStream(
