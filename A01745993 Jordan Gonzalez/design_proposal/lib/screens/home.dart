@@ -1,5 +1,6 @@
 import 'package:design_proposal/modules/events/screens/explore_events.dart';
 import 'package:design_proposal/modules/events/screens/user_events.dart';
+import 'package:design_proposal/modules/qr_scanner/screens/qr_scanner.dart';
 import 'package:design_proposal/modules/tickets/screens/all.dart';
 import 'package:design_proposal/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
@@ -214,12 +215,28 @@ class _HomeState extends State<Home> {
           ),
         ),
         floatingActionButton: _currentIndex == 0
-            ? FloatingActionButton(
-                onPressed: () async {
-                  await showEventForm(context);
-                },
-                backgroundColor: Colors.blueAccent,
-                child: const Icon(Icons.add),
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  FloatingActionButton(
+                    heroTag: 'add-participant',
+                    onPressed: () async => await showEventForm(context),
+                    child: const Icon(Icons.add),
+                    backgroundColor: Colors.blueAccent,
+                  ),
+                  Padding(padding: const EdgeInsets.only(left: 8)),
+                  FloatingActionButton(
+                    heroTag: 'scan-ticket',
+                    onPressed: () => {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => QrScanner()))
+                    },
+                    child: const Icon(Icons.qr_code),
+                    backgroundColor: Colors.blueAccent,
+                  ),
+                ],
               )
             : Container(),
         bottomNavigationBar: BottomNavigationBar(

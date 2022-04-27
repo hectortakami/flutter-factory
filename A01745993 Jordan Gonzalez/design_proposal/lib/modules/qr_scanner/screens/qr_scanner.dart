@@ -1,8 +1,11 @@
+import 'package:design_proposal/models/event.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
 class QrScanner extends StatefulWidget {
-  const QrScanner({Key? key}) : super(key: key);
+  final Event? event;
+  const QrScanner({Key? key, this.event}) : super(key: key);
+
   @override
   _QrScannerState createState() => _QrScannerState();
 }
@@ -13,12 +16,14 @@ class _QrScannerState extends State<QrScanner>
 
   @override
   Widget build(BuildContext context) {
+    Event? event = widget.event;
+
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: const Text('Ticket Scanner'),
+        title: Text(event != null ? event.name : 'Ticket Scanner'),
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back_ios,
@@ -55,14 +60,10 @@ class _QrScannerState extends State<QrScanner>
                         width: MediaQuery.of(context).size.width - 120,
                         height: 50,
                         child: FittedBox(
-                          child: Text(
-                            barcode ?? 'Scan something!',
-                            overflow: TextOverflow.fade,
-                            style: Theme.of(context)
-                                .textTheme
-                                .headline4!
-                                .copyWith(color: Colors.white),
-                          ),
+                          child: Text(barcode ?? 'Scanning...',
+                              overflow: TextOverflow.fade,
+                              style:
+                                  TextStyle(fontSize: 12, color: Colors.white)),
                         ),
                       ),
                     ),

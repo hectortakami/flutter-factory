@@ -37,7 +37,7 @@ class _SingleEventState extends State<SingleEvent> {
         backgroundColor: Colors.transparent,
         actions: [
           IconButton(
-              onPressed: () => {},
+              onPressed: () => _buildEventSettingsBottomSheet(context),
               icon: const Icon(
                 Icons.more_horiz,
                 color: Colors.black,
@@ -47,15 +47,30 @@ class _SingleEventState extends State<SingleEvent> {
             style: const TextStyle(
                 color: Colors.black, fontFamily: 'ProductSans')),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => const QrScanner()))
-        },
-        child: const Icon(Icons.qr_code),
-        backgroundColor: Colors.blueAccent,
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          FloatingActionButton(
+            heroTag: 'add-participant',
+            onPressed: () {},
+            child: const Icon(Icons.add),
+            backgroundColor: Colors.blueAccent,
+          ),
+          Padding(padding: const EdgeInsets.only(left: 8)),
+          FloatingActionButton(
+            heroTag: 'scan-ticket',
+            onPressed: () => {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => QrScanner(
+                            event: event,
+                          )))
+            },
+            child: const Icon(Icons.qr_code),
+            backgroundColor: Colors.blueAccent,
+          ),
+        ],
       ),
       body: StreamBuilder(
         stream: ticketsService.listEventTicketsAsStream(event.uid!),
@@ -76,13 +91,57 @@ class _SingleEventState extends State<SingleEvent> {
                 },
               );
             } else {
-              return Container();
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: Text(
+                      'There are no participants to this event.',
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                ],
+              );
             }
           } else {
-            return Container();
+            return Padding(
+              padding: EdgeInsets.only(top: 16),
+              child: Column(
+                children: [
+                  Text('An error occurred, try loading this event later.')
+                ],
+              ),
+            );
           }
         },
       ),
     );
+  }
+
+  void _buildEventSettingsBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Wrap(
+            alignment: WrapAlignment.center,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              ListTile(
+                title: const Text('Edit event'),
+                onTap: () => {},
+              ),
+              ListTile(
+                title: Text('Delete event'),
+                onTap: () => {},
+              ),
+              const ListTile(
+                title: Text(''),
+              ),
+              const Divider(
+                color: Colors.transparent,
+              )
+            ],
+          );
+        });
   }
 }
