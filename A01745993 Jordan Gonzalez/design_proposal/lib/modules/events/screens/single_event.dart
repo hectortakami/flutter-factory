@@ -51,8 +51,8 @@ class _SingleEventState extends State<SingleEvent> {
         backgroundColor: Colors.blueAccent,
       ),
       body: ListView(
-        children: 
-          event.participants.map((participant) => AssistantTile(name: participant['name'], assistance: participant['assistance'])).toList(),
+        children: []
+          // event.participants.map((participant) => AssistantTile(name: participant['name'], assistance: participant['assistance'])).toList(),
       ),
     );
   }

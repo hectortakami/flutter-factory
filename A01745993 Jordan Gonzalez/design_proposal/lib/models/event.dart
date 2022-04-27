@@ -7,7 +7,6 @@ class Event {
   final DateTime date;
   Map<String, dynamic> address;
   final String ownerUid;
-  List<Map<String, dynamic>> participants;
 
   Event(
       {required this.uid,
@@ -15,15 +14,13 @@ class Event {
       required this.description,
       required this.date,
       required this.address,
-      required this.ownerUid,
-      required this.participants});
+      required this.ownerUid});
 
   factory Event.fromMap(Map<String, dynamic> data, String uid) {
     String name = data['name'];
     String description = data['description'];
     DateTime date = data['date'].toDate();
     String ownerUid = data['ownerUid'];
-    List<Map<String, dynamic>> participants = [];
 
     return Event(
         uid: uid,
@@ -31,8 +28,7 @@ class Event {
         description: description,
         date: date,
         address: data['address'],
-        ownerUid: ownerUid,
-        participants: participants);
+        ownerUid: ownerUid);
   }
 
   Map<String, dynamic> toMap() {
@@ -40,8 +36,7 @@ class Event {
       'name': name,
       'description': description,
       'address': address,
-      'date': Timestamp.fromMillisecondsSinceEpoch(date.millisecondsSinceEpoch)
-          .toString(),
+      'date': Timestamp.fromDate(date),
       'ownerUid': ownerUid
     };
   }

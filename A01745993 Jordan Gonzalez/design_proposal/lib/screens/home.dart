@@ -4,6 +4,11 @@ import 'package:design_proposal/modules/tickets/screens/all.dart';
 import 'package:design_proposal/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import '../models/event.dart';
+import '../services/events.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -15,6 +20,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _currentIndex = 1;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final eventService = EventsService();
 
   void _selectIndex(int index) => setState(() => {_currentIndex = index});
 
@@ -22,91 +28,149 @@ class _HomeState extends State<Home> {
     return await showDialog(
         context: context,
         builder: (context) {
-          final TextEditingController textEditingController =
-              TextEditingController();
+          TextEditingController nameController = TextEditingController();
+          TextEditingController dateController = TextEditingController();
+          TextEditingController timeController = TextEditingController();
+          TextEditingController descriptionController = TextEditingController();
+          TextEditingController stateController = TextEditingController();
+          TextEditingController cityController = TextEditingController();
 
           return AlertDialog(
               content: Form(
                   key: formKey,
                   child: SingleChildScrollView(
                     child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                    const Text(
-                      'Event Form',
-                      style: TextStyle(
-                          color: Colors.grey, fontFamily: 'ProductSans'),
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text(
+                          'Event Form',
+                          style: TextStyle(
+                              color: Colors.grey, fontFamily: 'ProductSans'),
+                        ),
+                        const SizedBox(height: 25),
+                        TextFormField(
+                          controller: nameController,
+                          validator: (value) {
+                            return value!.isEmpty ? 'Missing field' : null;
+                          },
+                          decoration:
+                              const InputDecoration(hintText: 'Event name'),
+                        ),
+                        const SizedBox(height: 18),
+                        TextFormField(
+                          controller: dateController,
+                          decoration:
+                              const InputDecoration(hintText: "Event date"),
+                          readOnly: true,
+                          onTap: () async {
+                            DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime.now(),
+                                lastDate: DateTime(DateTime.now().year + 10));
+
+                            if (pickedDate != null) {
+                              String formattedDate =
+                                  DateFormat('yyyy-MM-dd').format(pickedDate);
+
+                              setState(() {
+                                dateController.text = formattedDate;
+                              });
+                            }
+                          },
+                          validator: (value) {
+                            value!.isEmpty ? 'Missing field' : null;
+                          },
+                        ),
+                        const SizedBox(height: 18),
+                        TextFormField(
+                          controller: timeController,
+                          decoration: const InputDecoration(
+                            labelText: 'Event time',
+                          ),
+                          readOnly: true,
+                          onTap: () async {
+                            TimeOfDay time = TimeOfDay.now();
+                            TimeOfDay? pickedTime = await showTimePicker(
+                                context: context, initialTime: time);
+
+                            if (pickedTime != null) {
+                              var formattedHour =
+                                  pickedTime.hour.toString().length < 2
+                                      ? "0" + pickedTime.hour.toString()
+                                      : pickedTime.hour.toString();
+                              var formattedMinute =
+                                  pickedTime.minute.toString().length < 2
+                                      ? "0" + pickedTime.minute.toString()
+                                      : pickedTime.minute.toString();
+
+                              setState(() {
+                                timeController.text =
+                                    formattedHour + ":" + formattedMinute;
+                              });
+                            }
+                          },
+                          validator: (value) {
+                            value!.isEmpty ? 'Missing field' : null;
+                          },
+                        ),
+                        const SizedBox(height: 18),
+                        TextFormField(
+                          controller: descriptionController,
+                          validator: (value) {
+                            return value!.isEmpty ? 'Missing field' : null;
+                          },
+                          decoration: const InputDecoration(
+                              hintText: 'Event description'),
+                        ),
+                        const SizedBox(height: 18),
+                        TextFormField(
+                          controller: stateController,
+                          validator: (value) {
+                            return value!.isEmpty ? 'Missing field' : null;
+                          },
+                          decoration: const InputDecoration(
+                              hintText: 'Location: State'),
+                        ),
+                        const SizedBox(height: 18),
+                        TextFormField(
+                          controller: cityController,
+                          validator: (value) {
+                            return value!.isEmpty ? 'Missing field' : null;
+                          },
+                          decoration:
+                              const InputDecoration(hintText: 'Location: City'),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 25),
-                    TextFormField(
-                      controller: textEditingController,
-                      validator: (value) {
-                        return value!.isEmpty ? 'Missing field' : null;
-                      },
-                      decoration: const InputDecoration(hintText: 'Event name'),
-                    ),
-                    const SizedBox(height: 18),
-                    InputDatePickerFormField(firstDate: DateTime.now(), lastDate: DateTime(DateTime.now().year+10)),
-                    const SizedBox(height: 18),
-                    TextFormField(
-                      controller: textEditingController,  // add this line.
-                      decoration: const InputDecoration(
-                        labelText: 'Event Time',
-                      ),
-                      onTap: () async {
-                        TimeOfDay time = TimeOfDay.now();
-                        FocusScope.of(context).requestFocus(new FocusNode());
-                  
-                        TimeOfDay? picked = await showTimePicker(context: context, initialTime: time);
-                        if (picked != null && picked != time) {
-                          textEditingController.text = picked.toString();  // add this line.
-                          setState(() {
-                            time = picked;
-                          });
-                        }
-                      },
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'cant be empty';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 18),
-                    TextFormField(
-                      controller: textEditingController,
-                      validator: (value) {
-                        return value!.isEmpty ? 'Missing field' : null;
-                      },
-                      decoration:
-                          const InputDecoration(hintText: 'Event description'),
-                    ),
-                    const SizedBox(height: 18),
-                    TextFormField(
-                      controller: textEditingController,
-                      validator: (value) {
-                        return value!.isEmpty ? 'Missing field' : null;
-                      },
-                      decoration:
-                          const InputDecoration(hintText: 'Location: State'),
-                    ),
-                    const SizedBox(height: 18),
-                    TextFormField(
-                      controller: textEditingController,
-                      validator: (value) {
-                        return value!.isEmpty ? 'Missing field' : null;
-                      },
-                      decoration:
-                          const InputDecoration(hintText: 'Location: City'),
-                    ),
-                                  ],
-                                ),
                   )),
               actions: <Widget>[
                 TextButton(
                     onPressed: () {
-                      if(formKey.currentState!.validate()) {
-                        formKey.currentState!.save();
+                      if (formKey.currentState!.validate()) {
+                        final auth =
+                            Provider.of<AuthProvider>(context, listen: false);
+                        auth.user!.uid;
+                        DateTime dt = DateTime.parse(dateController.text +
+                            " " +
+                            timeController.text +
+                            ":00");
+                        TimeOfDay time = TimeOfDay.now();
+
+                        final event = Event(
+                            uid: nameController.text +
+                                "_" +
+                                dt.microsecondsSinceEpoch.toString(),
+                            name: nameController.text,
+                            description: descriptionController.text,
+                            date: dt,
+                            address: {
+                              "city": cityController.text,
+                              "state": stateController.text
+                            },
+                            ownerUid: auth.user!.uid);
+
+                        eventService.setEvent(event);
                         Navigator.of(context).pop();
                       }
                     },

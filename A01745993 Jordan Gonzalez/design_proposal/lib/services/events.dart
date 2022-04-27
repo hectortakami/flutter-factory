@@ -18,7 +18,7 @@ class EventsService {
   final _firestoreService = FirestoreClient.instance;
 
   Future<void> setEvent(Event event) async => await _firestoreService.set(
-      path: FirestorePath.events(), document: event.toMap());
+      path: FirestorePath.event(event.uid), document: event.toMap());
 
   Future<void> deleteEvent(Event event) async =>
       await _firestoreService.delete(path: FirestorePath.event(event.uid));
