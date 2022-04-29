@@ -86,7 +86,8 @@ class _EventFormState extends State<EventForm> {
                     } else {
                       eventService.addEvent(fbEvent);
                     }
-                    Navigator.of(context).pop();
+                    int count = 0;
+                    Navigator.of(context).popUntil((_) => count++ >= 2);
                   }
                 },
                 child: Text(event != null ? 'Update' : 'Save',
