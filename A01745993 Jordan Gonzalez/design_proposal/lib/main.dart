@@ -29,8 +29,9 @@ class App extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Google Summits',
       theme: ThemeData(
-        primarySwatch: Colors.pink,
-      ),
+          primarySwatch: Colors.blue,
+          secondaryHeaderColor: Colors.blueAccent,
+          primaryColor: Colors.blueAccent),
       home: auth.status == Status.authenticated ? const Home() : const Login(),
     );
   }

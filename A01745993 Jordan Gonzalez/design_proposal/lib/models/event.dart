@@ -7,6 +7,7 @@ class Event {
   final DateTime date;
   Map<String, dynamic> address;
   final String ownerUid;
+  final bool? isPublic;
 
   Event(
       {this.uid,
@@ -14,13 +15,16 @@ class Event {
       required this.description,
       required this.date,
       required this.address,
-      required this.ownerUid});
+      required this.ownerUid,
+      this.isPublic});
 
   factory Event.fromMap(Map<String, dynamic> data, String uid) {
     String name = data['name'];
     String description = data['description'];
     DateTime date = data['date'].toDate();
     String ownerUid = data['ownerUid'];
+    bool? isPublic =
+        data['isPublic'] != null ? data['isPublic'] == 'true' : null;
 
     return Event(
         uid: uid,
@@ -28,7 +32,8 @@ class Event {
         description: description,
         date: date,
         address: data['address'],
-        ownerUid: ownerUid);
+        ownerUid: ownerUid,
+        isPublic: isPublic);
   }
 
   Map<String, dynamic> toMap() {
@@ -37,7 +42,8 @@ class Event {
       'description': description,
       'address': address,
       'date': Timestamp.fromDate(date),
-      'ownerUid': ownerUid
+      'ownerUid': ownerUid,
+      'isPublic': isPublic
     };
   }
 }

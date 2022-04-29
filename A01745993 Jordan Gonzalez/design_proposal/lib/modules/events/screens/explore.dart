@@ -1,4 +1,4 @@
-import 'package:design_proposal/modules/events/screens/single_event.dart';
+import 'package:design_proposal/modules/events/screens/single.dart';
 import 'package:design_proposal/modules/events/widgets/event_card.dart';
 import 'package:design_proposal/services/events.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ class ExploreEvents extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: eventService.listEventsAsStream(),
+        stream: eventService.listPublicEventsAsStream(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             List<Event> events = snapshot.data as List<Event>;

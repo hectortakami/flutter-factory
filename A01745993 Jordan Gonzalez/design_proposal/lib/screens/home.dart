@@ -1,13 +1,12 @@
-import 'package:design_proposal/modules/events/screens/explore_events.dart';
+import 'package:design_proposal/modules/events/screens/form.dart';
+import 'package:design_proposal/modules/events/screens/explore.dart';
 import 'package:design_proposal/modules/events/screens/user_events.dart';
 import 'package:design_proposal/modules/qr_scanner/screens/qr_scanner.dart';
 import 'package:design_proposal/modules/tickets/screens/all.dart';
 import 'package:design_proposal/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
 
-import '../models/event.dart';
 import '../services/events.dart';
 
 class Home extends StatefulWidget {
@@ -20,161 +19,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _currentIndex = 1;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final eventService = EventsService();
 
   void _selectIndex(int index) => setState(() => {_currentIndex = index});
-
-  Future<void> showEventForm(BuildContext context) async {
-    return await showDialog(
-        context: context,
-        builder: (context) {
-          TextEditingController nameController = TextEditingController();
-          TextEditingController dateController = TextEditingController();
-          TextEditingController timeController = TextEditingController();
-          TextEditingController descriptionController = TextEditingController();
-          TextEditingController stateController = TextEditingController();
-          TextEditingController cityController = TextEditingController();
-
-          return AlertDialog(
-              content: Form(
-                  key: formKey,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text(
-                          'Event Form',
-                          style: TextStyle(
-                              color: Colors.grey, fontFamily: 'ProductSans'),
-                        ),
-                        const SizedBox(height: 25),
-                        TextFormField(
-                          controller: nameController,
-                          validator: (value) {
-                            return value!.isEmpty ? 'Missing field' : null;
-                          },
-                          decoration:
-                              const InputDecoration(hintText: 'Event name'),
-                        ),
-                        const SizedBox(height: 18),
-                        TextFormField(
-                          controller: dateController,
-                          decoration:
-                              const InputDecoration(hintText: "Event date"),
-                          readOnly: true,
-                          onTap: () async {
-                            DateTime? pickedDate = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime.now(),
-                                lastDate: DateTime(DateTime.now().year + 10));
-
-                            if (pickedDate != null) {
-                              String formattedDate =
-                                  DateFormat('yyyy-MM-dd').format(pickedDate);
-
-                              setState(() {
-                                dateController.text = formattedDate;
-                              });
-                            }
-                          },
-                          validator: (value) {
-                            value!.isEmpty ? 'Missing field' : null;
-                          },
-                        ),
-                        const SizedBox(height: 18),
-                        TextFormField(
-                          controller: timeController,
-                          decoration: const InputDecoration(
-                            labelText: 'Event time',
-                          ),
-                          readOnly: true,
-                          onTap: () async {
-                            TimeOfDay time = TimeOfDay.now();
-                            TimeOfDay? pickedTime = await showTimePicker(
-                                context: context, initialTime: time);
-
-                            if (pickedTime != null) {
-                              var formattedHour =
-                                  pickedTime.hour.toString().length < 2
-                                      ? "0" + pickedTime.hour.toString()
-                                      : pickedTime.hour.toString();
-                              var formattedMinute =
-                                  pickedTime.minute.toString().length < 2
-                                      ? "0" + pickedTime.minute.toString()
-                                      : pickedTime.minute.toString();
-
-                              setState(() {
-                                timeController.text =
-                                    formattedHour + ":" + formattedMinute;
-                              });
-                            }
-                          },
-                          validator: (value) {
-                            value!.isEmpty ? 'Missing field' : null;
-                          },
-                        ),
-                        const SizedBox(height: 18),
-                        TextFormField(
-                          controller: descriptionController,
-                          validator: (value) {
-                            return value!.isEmpty ? 'Missing field' : null;
-                          },
-                          decoration: const InputDecoration(
-                              hintText: 'Event description'),
-                        ),
-                        const SizedBox(height: 18),
-                        TextFormField(
-                          controller: stateController,
-                          validator: (value) {
-                            return value!.isEmpty ? 'Missing field' : null;
-                          },
-                          decoration: const InputDecoration(
-                              hintText: 'Location: State'),
-                        ),
-                        const SizedBox(height: 18),
-                        TextFormField(
-                          controller: cityController,
-                          validator: (value) {
-                            return value!.isEmpty ? 'Missing field' : null;
-                          },
-                          decoration:
-                              const InputDecoration(hintText: 'Location: City'),
-                        ),
-                      ],
-                    ),
-                  )),
-              actions: <Widget>[
-                TextButton(
-                    onPressed: () {
-                      if (formKey.currentState!.validate()) {
-                        final auth =
-                            Provider.of<AuthProvider>(context, listen: false);
-                        auth.user!.uid;
-                        DateTime dt = DateTime.parse(dateController.text +
-                            " " +
-                            timeController.text +
-                            ":00");
-                        TimeOfDay time = TimeOfDay.now();
-
-                        final Event event = Event(
-                            name: nameController.text,
-                            description: descriptionController.text,
-                            date: dt,
-                            address: {
-                              "city": cityController.text,
-                              "state": stateController.text
-                            },
-                            ownerUid: auth.user!.uid);
-
-                        eventService.addEvent(event);
-                        Navigator.of(context).pop();
-                      }
-                    },
-                    child: const Text('Create Event'))
-              ]);
-        });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -219,7 +65,11 @@ class _HomeState extends State<Home> {
                 children: <Widget>[
                   FloatingActionButton(
                     heroTag: 'add-participant',
-                    onPressed: () async => await showEventForm(context),
+                    onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) => EventForm())),
+                    //onPressed: () async => await showEventForm(context),
                     child: const Icon(Icons.add),
                     backgroundColor: Colors.blueAccent,
                   ),

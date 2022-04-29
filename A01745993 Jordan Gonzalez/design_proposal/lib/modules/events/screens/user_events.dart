@@ -1,4 +1,4 @@
-import 'package:design_proposal/modules/events/screens/single_event.dart';
+import 'package:design_proposal/modules/events/screens/single.dart';
 import 'package:design_proposal/modules/events/widgets/event_card.dart';
 import 'package:design_proposal/providers/auth_provider.dart';
 import 'package:design_proposal/services/events.dart';
