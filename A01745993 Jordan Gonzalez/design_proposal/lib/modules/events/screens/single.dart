@@ -39,14 +39,16 @@ class _SingleEventState extends State<SingleEvent> {
           ),
           elevation: 0,
           backgroundColor: Colors.transparent,
-          actions: [
-            IconButton(
-                onPressed: () => _buildEventSettingsBottomSheet(context),
-                icon: const Icon(
-                  Icons.more_horiz,
-                  color: Colors.black,
-                )),
-          ],
+          actions: isEventOwner
+              ? [
+                  IconButton(
+                      onPressed: () => _buildEventSettingsBottomSheet(context),
+                      icon: const Icon(
+                        Icons.more_horiz,
+                        color: Colors.black,
+                      )),
+                ]
+              : [],
           title: Text(event.name,
               style: const TextStyle(
                   color: Colors.black, fontFamily: 'ProductSans')),
