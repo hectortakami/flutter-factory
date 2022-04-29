@@ -79,7 +79,8 @@ class _EventFormState extends State<EventForm> {
                           "city": cityController.text,
                           "state": stateController.text
                         },
-                        ownerUid: auth.user!.uid);
+                        ownerUid: auth.user!.uid,
+                        isPublic: true);
 
                     if (event != null) {
                       eventService.setEvent(fbEvent);
