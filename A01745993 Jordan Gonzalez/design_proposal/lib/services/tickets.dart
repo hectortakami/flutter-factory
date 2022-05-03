@@ -19,16 +19,29 @@ class TicketsService {
 
   final _firestoreService = FirestoreClient.instance;
 
-  Future<void> setTicket(Ticket ticket) async => await _firestoreService.set(
+  Future<void> addTicket(Ticket ticket) async => await _firestoreService.add(
       path: FirestorePath.tickets(), document: ticket.toMap());
 
+  Future<void> setTicket(Ticket ticket) async => await _firestoreService.set(
+      path: FirestorePath.ticket(ticket.uid!), document: ticket.toMap());
+
+  Future<void> setAttendance(Ticket ticket) async =>
+      await _firestoreService.setOneField(
+          path: FirestorePath.ticket(ticket.uid!),
+          field: 'attendance',
+          value: true);
+
   Future<void> deleteTicket(Ticket ticket) async =>
-      await _firestoreService.delete(path: FirestorePath.ticket(ticket.uid));
+      await _firestoreService.delete(path: FirestorePath.ticket(ticket.uid!));
 
   Stream<Ticket> getTicketAsStream(String uid) =>
       _firestoreService.documentStream(
           path: FirestorePath.ticket(uid),
           builder: (data, uid) => Ticket.fromMap(data: data, uid: uid));
+
+  Future<Ticket> getTicket(String uid) => _firestoreService.document(
+      path: FirestorePath.ticket(uid),
+      builder: (data, uid) => Ticket.fromMap(data: data, uid: uid));
 
   Stream<List<Ticket>> listTicketsAsStream() =>
       _firestoreService.collectionStream(

@@ -30,7 +30,7 @@ class TicketCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    ticket.uid,
+                    ticket.uid!,
                     textAlign: TextAlign.center,
                   ),
                 ],

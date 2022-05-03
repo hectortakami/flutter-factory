@@ -2,6 +2,7 @@ import 'package:design_proposal/models/ticket.dart';
 import 'package:design_proposal/modules/events/screens/form.dart';
 import 'package:design_proposal/modules/events/widgets/assistant_tile.dart';
 import 'package:design_proposal/modules/qr_scanner/screens/qr_scanner.dart';
+import 'package:design_proposal/modules/tickets/screens/form.dart';
 import 'package:design_proposal/providers/auth_provider.dart';
 import 'package:design_proposal/services/tickets.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +60,14 @@ class _SingleEventState extends State<SingleEvent> {
                 children: <Widget>[
                   FloatingActionButton(
                     heroTag: 'add-participant',
-                    onPressed: () {},
+                    onPressed: () => {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) => TicketForm(
+                                    event: event,
+                                  )))
+                    },
                     child: const Icon(Icons.add),
                     backgroundColor: Colors.blueAccent,
                   ),

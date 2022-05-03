@@ -1,4 +1,6 @@
 import 'package:design_proposal/models/event.dart';
+import 'package:design_proposal/models/ticket.dart';
+import 'package:design_proposal/services/tickets.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 
@@ -13,6 +15,27 @@ class QrScanner extends StatefulWidget {
 class _QrScannerState extends State<QrScanner>
     with SingleTickerProviderStateMixin {
   String? barcode;
+  final TicketsService ticketsService = TicketsService();
+
+  void _handleOnDetect(Barcode _barcode, MobileScannerArguments? args) async {
+    setState(() {
+      this.barcode = _barcode.rawValue;
+    });
+    print(_barcode.rawValue);
+    print(barcode);
+
+    try {
+      Ticket ticket = await ticketsService.getTicket(barcode!);
+      if (ticket.attendance == false) {
+        ticketsService.setAttendance(ticket);
+        Navigator.pop(context);
+      } else {
+        print('user already in event');
+      }
+    } catch (e) {
+      print('ticket doesnt exists');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,13 +61,7 @@ class _QrScannerState extends State<QrScanner>
             MobileScanner(
                 fit: BoxFit.cover,
                 // allowDuplicates: false,
-                onDetect: (barcode, args) {
-                  setState(() {
-                    this.barcode = barcode.rawValue;
-                  });
-                  print(barcode.rawValue);
-                  print(barcode);
-                }),
+                onDetect: _handleOnDetect),
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(

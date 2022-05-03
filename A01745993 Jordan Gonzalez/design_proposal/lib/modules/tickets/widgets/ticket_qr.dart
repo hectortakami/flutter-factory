@@ -11,7 +11,7 @@ class TickerQr extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return QrImage(
-      data: ticket.uid,
+      data: ticket.uid!,
       version: QrVersions.auto,
       size: 320,
       gapless: false,
