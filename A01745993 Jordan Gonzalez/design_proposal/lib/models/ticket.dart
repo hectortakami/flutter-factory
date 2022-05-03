@@ -1,7 +1,7 @@
 import 'package:design_proposal/models/event.dart';
 
 class Ticket {
-  final String uid;
+  final String? uid;
   final String eventUid;
   final String userUid;
   final bool attendance;
@@ -9,7 +9,7 @@ class Ticket {
   Stream<Event>? event;
 
   Ticket(
-      {required this.uid,
+      {this.uid,
       required this.eventUid,
       required this.userUid,
       required this.holder,
@@ -22,7 +22,7 @@ class Ticket {
       Stream<Event>? event}) {
     String eventUid = data['eventUid'];
     String userUid = data['userUid'];
-    bool attendance = data['attedance'] == 'true';
+    bool attendance = data['attendance'];
 
     return Ticket(
         uid: uid,
