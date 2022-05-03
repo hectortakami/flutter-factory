@@ -18,6 +18,14 @@ class FirestoreClient {
     await reference.add(document);
   }
 
+  Future<void> setOneField(
+      {required String path,
+      required String field,
+      required dynamic value}) async {
+    final DocumentReference reference = FirebaseFirestore.instance.doc(path);
+    await reference.update({field: value});
+  }
+
   /// Update a document to a collection given its path.
   Future<void> set({
     required String path,
@@ -82,5 +90,14 @@ class FirestoreClient {
     final Stream<DocumentSnapshot> snapshots = reference.snapshots();
     return snapshots.map((snapshot) =>
         builder(snapshot.data() as Map<String, dynamic>, snapshot.id));
+  }
+
+  Future<T> document<T>({
+    required String path,
+    required T Function(Map<String, dynamic> data, String documentID) builder,
+  }) async {
+    final DocumentReference reference = FirebaseFirestore.instance.doc(path);
+    final DocumentSnapshot snapshot = await reference.get();
+    return builder(snapshot.data() as Map<String, dynamic>, snapshot.id);
   }
 }
