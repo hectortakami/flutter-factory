@@ -45,7 +45,7 @@ class CustomTextFormField extends StatelessWidget {
 
             hintText: hintText,
 
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               color: Colors.grey,
               fontSize: 16,
               fontWeight: FontWeight.w400,
@@ -53,7 +53,7 @@ class CustomTextFormField extends StatelessWidget {
 
             labelText: labelText,
             //lable style
-            labelStyle: TextStyle(
+            labelStyle: const TextStyle(
               color: Colors.grey,
               fontSize: 16,
               fontWeight: FontWeight.w400,

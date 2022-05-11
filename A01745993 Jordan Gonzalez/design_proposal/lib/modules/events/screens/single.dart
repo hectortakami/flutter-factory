@@ -71,7 +71,7 @@ class _SingleEventState extends State<SingleEvent> {
                     child: const Icon(Icons.add),
                     backgroundColor: Colors.blueAccent,
                   ),
-                  Padding(padding: const EdgeInsets.only(left: 8)),
+                  const Padding(padding: EdgeInsets.only(left: 8)),
                   FloatingActionButton(
                     heroTag: 'scan-ticket',
                     onPressed: () => {
@@ -88,10 +88,10 @@ class _SingleEventState extends State<SingleEvent> {
                 ],
               )
             : Container(),
-        body: isEventOwner ? OwnerView(context) : Container());
+        body: isEventOwner ? ownerView(context) : Container());
   }
 
-  Widget OwnerView(BuildContext context) {
+  Widget ownerView(BuildContext context) {
     final TicketsService ticketsService = TicketsService();
 
     return StreamBuilder(
@@ -109,13 +109,13 @@ class _SingleEventState extends State<SingleEvent> {
                 );
               },
               separatorBuilder: (context, index) {
-                return Divider(height: 0.5);
+                return const Divider(height: 0.5);
               },
             );
           } else {
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: const [
                 Center(
                   child: Text(
                     'There are no participants to this event.',
@@ -127,9 +127,9 @@ class _SingleEventState extends State<SingleEvent> {
           }
         } else {
           return Padding(
-            padding: EdgeInsets.only(top: 16),
+            padding: const EdgeInsets.only(top: 16),
             child: Column(
-              children: [
+              children: const [
                 Text('An error occurred, try loading this event later.')
               ],
             ),
@@ -160,7 +160,7 @@ class _SingleEventState extends State<SingleEvent> {
                 },
               ),
               ListTile(
-                title: Text('Delete event'),
+                title: const Text('Delete event'),
                 onTap: () => {},
               ),
               const ListTile(

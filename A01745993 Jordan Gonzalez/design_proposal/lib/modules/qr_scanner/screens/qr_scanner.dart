@@ -19,7 +19,7 @@ class _QrScannerState extends State<QrScanner>
 
   void _handleOnDetect(Barcode _barcode, MobileScannerArguments? args) async {
     setState(() {
-      this.barcode = _barcode.rawValue;
+      barcode = _barcode.rawValue;
     });
     print(_barcode.rawValue);
     print(barcode);
@@ -80,7 +80,7 @@ class _QrScannerState extends State<QrScanner>
                           child: Text(barcode ?? 'Scanning...',
                               overflow: TextOverflow.fade,
                               style:
-                                  TextStyle(fontSize: 12, color: Colors.white)),
+                                  const TextStyle(fontSize: 12, color: Colors.white)),
                         ),
                       ),
                     ),

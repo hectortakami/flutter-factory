@@ -6,11 +6,7 @@ import 'package:design_proposal/models/event.dart';
 import 'package:design_proposal/services/firebase/firestore_client.dart';
 import 'package:design_proposal/services/firebase/firestore_paths.dart';
 
-/**
- * Inspired by: https://github.com/KenAragorn/create_flutter_provider_app
- */
-
-/// TODO: Add documentation
+/// Inspired by: https://github.com/KenAragorn/create_flutter_provider_app
 
 class EventsService {
   EventsService();

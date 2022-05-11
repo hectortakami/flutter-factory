@@ -66,19 +66,19 @@ class _HomeState extends State<Home> {
                     onPressed: () => Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (BuildContext context) => EventForm())),
+                            builder: (BuildContext context) => const EventForm())),
                     //onPressed: () async => await showEventForm(context),
                     child: const Icon(Icons.add),
                     backgroundColor: Colors.blueAccent,
                   ),
-                  Padding(padding: const EdgeInsets.only(left: 8)),
+                  const Padding(padding: EdgeInsets.only(left: 8)),
                   FloatingActionButton(
                     heroTag: 'scan-ticket',
                     onPressed: () => {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (BuildContext context) => QrScanner()))
+                              builder: (BuildContext context) => const QrScanner()))
                     },
                     child: const Icon(Icons.qr_code),
                     backgroundColor: Colors.blueAccent,

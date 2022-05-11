@@ -2,10 +2,8 @@ import 'package:design_proposal/models/event.dart';
 import 'package:design_proposal/models/ticket.dart';
 import 'package:design_proposal/modules/core/widgets/text_form_field.dart';
 import 'package:design_proposal/providers/auth_provider.dart';
-import 'package:design_proposal/services/events.dart';
 import 'package:design_proposal/services/tickets.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class TicketForm extends StatefulWidget {
@@ -65,12 +63,12 @@ class _TicketFormState extends State<TicketForm> {
                 child: Text('Submit',
                     style: TextStyle(fontSize: 16, color: Colors.grey[700])))
           ],
-          title: Text('Add ticket',
-              style: const TextStyle(
+          title: const Text('Add ticket',
+              style: TextStyle(
                   color: Colors.black, fontFamily: 'ProductSans')),
         ),
         body: Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             children: [
               Form(

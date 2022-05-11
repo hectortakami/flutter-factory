@@ -68,7 +68,6 @@ class _EventFormState extends State<EventForm> {
                         " " +
                         timeController.text +
                         ":00");
-                    TimeOfDay time = TimeOfDay.now();
 
                     final Event fbEvent = Event(
                         uid: event?.uid,
@@ -99,106 +98,111 @@ class _EventFormState extends State<EventForm> {
                   color: Colors.black, fontFamily: 'ProductSans')),
         ),
         body: Padding(
-          padding: EdgeInsets.all(16),
-          child: Column(
-            children: [
-              Form(
-                  key: _formKey,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CustomTextFormField(
-                          controller: nameController,
-                          labelText: 'Name',
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please insert the name';
-                            }
-                            return null;
-                          },
-                        ),
-                        CustomTextFormField(
-                          controller: descriptionController,
-                          labelText: 'Description',
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please insert a description';
-                            }
-                            return null;
-                          },
-                        ),
-                        CustomTextFormField(
-                          controller: dateController,
-                          labelText: 'Date',
-                          readOnly: true,
-                          onTap: () async {
-                            DateTime? pickedDate = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime.now(),
-                                lastDate: DateTime(DateTime.now().year + 10));
-
-                            if (pickedDate != null) {
-                              String formattedDate =
-                                  DateFormat('yyyy-MM-dd').format(pickedDate);
-
-                              setState(() {
-                                dateController.text = formattedDate;
-                              });
-                            }
-                          },
-                          validator: (value) {
-                            value!.isEmpty ? 'Missing field' : null;
-                          },
-                        ),
-                        CustomTextFormField(
-                          controller: timeController,
-                          labelText: 'Time',
-                          readOnly: true,
-                          onTap: () async {
-                            TimeOfDay time = TimeOfDay.now();
-                            TimeOfDay? pickedTime = await showTimePicker(
-                                context: context, initialTime: time);
-
-                            if (pickedTime != null) {
-                              String formattedHour =
-                                  pickedTime.hour.toString().length < 2
-                                      ? "0" + pickedTime.hour.toString()
-                                      : pickedTime.hour.toString();
-                              String formattedMinute =
-                                  pickedTime.minute.toString().length < 2
-                                      ? "0" + pickedTime.minute.toString()
-                                      : pickedTime.minute.toString();
-
-                              setState(() {
-                                timeController.text =
-                                    formattedHour + ":" + formattedMinute;
-                              });
-                            }
-                          },
-                        ),
-                        CustomTextFormField(
-                          controller: stateController,
-                          labelText: 'State',
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'State location is required';
-                            }
-                            return null;
-                          },
-                        ),
-                        CustomTextFormField(
-                          controller: cityController,
-                          labelText: 'City',
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'City location is required';
-                            }
-                            return null;
-                          },
-                        ),
-                      ])),
-            ],
+          padding: const EdgeInsets.all(16),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                Form(
+                    key: _formKey,
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomTextFormField(
+                            controller: nameController,
+                            labelText: 'Name',
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please insert the name';
+                              }
+                              return null;
+                            },
+                          ),
+                          CustomTextFormField(
+                            controller: descriptionController,
+                            labelText: 'Description',
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please insert the description';
+                              }
+                              return null;
+                            },
+                          ),
+                          CustomTextFormField(
+                            controller: dateController,
+                            labelText: 'Date',
+                            readOnly: true,
+                            onTap: () async {
+                              DateTime? pickedDate = await showDatePicker(
+                                  context: context,
+                                  initialDate: DateTime.now(),
+                                  firstDate: DateTime.now(),
+                                  lastDate: DateTime(DateTime.now().year + 10));
+          
+                              if (pickedDate != null) {
+                                String formattedDate =
+                                    DateFormat('yyyy-MM-dd').format(pickedDate);
+          
+                                setState(() {
+                                  dateController.text = formattedDate;
+                                });
+                              }
+                            },
+                            validator: (value) {
+                              return value!.isEmpty ? 'Please insert the date' : null;
+                            },
+                          ),
+                          CustomTextFormField(
+                            controller: timeController,
+                            labelText: 'Time',
+                            readOnly: true,
+                            onTap: () async {
+                              TimeOfDay time = TimeOfDay.now();
+                              TimeOfDay? pickedTime = await showTimePicker(
+                                  context: context, initialTime: time);
+          
+                              if (pickedTime != null) {
+                                String formattedHour =
+                                    pickedTime.hour.toString().length < 2
+                                        ? "0" + pickedTime.hour.toString()
+                                        : pickedTime.hour.toString();
+                                String formattedMinute =
+                                    pickedTime.minute.toString().length < 2
+                                        ? "0" + pickedTime.minute.toString()
+                                        : pickedTime.minute.toString();
+          
+                                setState(() {
+                                  timeController.text =
+                                      formattedHour + ":" + formattedMinute;
+                                });
+                              }
+                            },
+                            validator: (value) {
+                              return value!.isEmpty ? 'Please insert the time' : null;
+                            },
+                          ),
+                          CustomTextFormField(
+                            controller: stateController,
+                            labelText: 'State',
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'State location is required';
+                              }
+                              return null;
+                            },
+                          ),
+                          CustomTextFormField(
+                            controller: cityController,
+                            labelText: 'City',
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'City location is required';
+                              }
+                              return null;
+                            },
+                          ),
+                        ])),
+              ],
+            ),
           ),
         ));
   }

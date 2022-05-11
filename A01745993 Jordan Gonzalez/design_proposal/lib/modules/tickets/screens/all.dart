@@ -30,7 +30,7 @@ class Tickets extends StatelessWidget {
                   );
                 },
                 separatorBuilder: (context, index) {
-                  return Divider(height: 0.5);
+                  return const Divider(height: 0.5);
                 },
               );
             } else {
