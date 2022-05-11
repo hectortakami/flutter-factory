@@ -44,6 +44,9 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> signInWithGoogle() async {
+    _status = Status.authenticating;
+    notifyListeners();
+
     try {
       // Trigger the authentication flow
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -52,16 +55,23 @@ class AuthProvider extends ChangeNotifier {
       final GoogleSignInAuthentication? googleAuth =
           await googleUser?.authentication;
 
-      // Create a new credential
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
+      if (googleUser != null && googleAuth != null) {
+        // Create a new credential
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
 
-      // Once signed in, return the UserCredential
-      await _auth.signInWithCredential(credential);
+        // Once signed in, return the UserCredential
+        await _auth.signInWithCredential(credential);
+      } else {
+        _status = Status.unauthenticated;
+        notifyListeners();
+      }
     } on FirebaseAuthException catch (error) {
       print(error);
+      _status = Status.unauthenticated;
+      notifyListeners();
     }
   }
 

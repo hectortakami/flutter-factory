@@ -1,4 +1,5 @@
 import 'package:design_proposal/providers/auth_provider.dart';
+import 'package:design_proposal/screens/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
@@ -13,7 +14,7 @@ class Login extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(height: size.width / 4),
             const Text(
@@ -21,29 +22,31 @@ class Login extends StatelessWidget {
               style: TextStyle(
                   color: Colors.grey, fontFamily: 'ProductSans', fontSize: 24),
             ),
-            const Spacer(),
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: AnimatedSwitcher(
-                duration: const Duration(milliseconds: 200),
-                child: auth.status == Status.uninitialized
-                    ? Container(
-                        color: Colors.grey[200],
-                        height: 50,
-                        width: double.infinity,
-                      )
-                    : SizedBox(
-                        width: double.infinity,
-                        height: 50,
-                        child: SignInButton(
-                          Buttons.Google,
-                          onPressed: auth.signInWithGoogle,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(4)),
-                        ),
-                      ),
-              ),
-            ),
+            auth.status == Status.authenticating ? Container() : Spacer(),
+            auth.status == Status.authenticating
+                ? Loading()
+                : Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 200),
+                      child: auth.status == Status.uninitialized
+                          ? Container(
+                              color: Colors.grey[200],
+                              height: 50,
+                              width: double.infinity,
+                            )
+                          : SizedBox(
+                              width: double.infinity,
+                              height: 50,
+                              child: SignInButton(
+                                Buttons.Google,
+                                onPressed: auth.signInWithGoogle,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(4)),
+                              ),
+                            ),
+                    ),
+                  ),
             SizedBox(height: size.width / 16)
           ],
         ),
