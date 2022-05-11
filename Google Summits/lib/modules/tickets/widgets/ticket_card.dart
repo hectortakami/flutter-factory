@@ -9,7 +9,7 @@ class TicketCard extends StatelessWidget {
 
   const TicketCard({Key? key, required this.ticket}) : super(key: key);
 
-  dynamic _showQrDialog(BuildContext context) {
+  dynamic _showQrDialog(BuildContext context, Event event) {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -18,7 +18,7 @@ class TicketCard extends StatelessWidget {
             Expanded(
               child: SimpleDialog(
                 title: Text(
-                  '${ticket.holder['name']} ${ticket.holder['lastname']}',
+                  '${event.name}',
                   textAlign: TextAlign.center,
                 ), //ticket.eventName),
                 children: [
@@ -30,9 +30,17 @@ class TicketCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    ticket.uid!,
+                    '${ticket.holder['name']} ${ticket.holder['lastname']}',
                     textAlign: TextAlign.center,
                   ),
+                  ticket.attendance
+                      ? Text(
+                          'TICKET HAS BEEN USED',
+                          style: TextStyle(
+                              color: Colors.red, fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
+                        )
+                      : Container(),
                 ],
                 elevation: 5,
                 //backgroundColor: Colors.green,
@@ -51,11 +59,12 @@ class TicketCard extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           Event event = snapshot.data as Event;
+          Color textColor = ticket.attendance ? Colors.grey : Colors.black;
           return Padding(
               padding:
                   const EdgeInsets.only(left: 8, right: 8, bottom: 1, top: 1),
               child: GestureDetector(
-                onTap: () => _showQrDialog(context),
+                onTap: () => _showQrDialog(context, event),
                 child: Card(
                   child: SizedBox(
                     width: double.infinity,
@@ -66,17 +75,21 @@ class TicketCard extends StatelessWidget {
                               left: 16, top: 12, bottom: 12, right: 16),
                           child: Row(
                             children: [
-                              const Icon(
-                                Icons.qr_code,
-                                color: Colors.grey,
-                                size: 36,
-                              ),
+                              ticket.attendance
+                                  ? const Icon(Icons.done,
+                                      color: Colors.green, size: 36)
+                                  : const Icon(
+                                      Icons.qr_code,
+                                      color: Colors.grey,
+                                      size: 36,
+                                    ),
                               const Padding(padding: EdgeInsets.only(right: 8)),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(event.name,
-                                      style: const TextStyle(
+                                      style: TextStyle(
+                                          color: textColor,
                                           fontSize: 18,
                                           fontFamily: 'ProductSans')),
                                   Text(
@@ -92,13 +105,15 @@ class TicketCard extends StatelessWidget {
                                   Text(
                                       '${event.date.day}/${event.date.month}/${event.date.year}'
                                           .toUpperCase(),
-                                      style: const TextStyle(
+                                      style: TextStyle(
+                                          color: textColor,
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold)),
                                   Text(
                                       '${event.date.hour}:${event.date.minute.toString().padRight(2, '0')}'
                                           .toUpperCase(),
-                                      style: const TextStyle(
+                                      style: TextStyle(
+                                          color: textColor,
                                           fontSize: 12,
                                           fontWeight: FontWeight.bold)),
                                 ],

@@ -40,13 +40,16 @@ class TicketsService {
 
   Stream<List<Ticket>> listTicketsAsStream() =>
       _firestoreService.collectionStream(
-          path: FirestorePath.tickets(),
-          builder: (data, uid) => Ticket.fromMap(data: data, uid: uid));
+        path: FirestorePath.tickets(),
+        builder: (data, uid) => Ticket.fromMap(data: data, uid: uid),
+        queryBuilder: (query) => query.orderBy('attendance'),
+      );
 
   Stream<List<Ticket>> listUserTicketsAsStream(String userUid) {
     Query ticketsQuery = FirebaseFirestore.instance
         .collection(FirestorePath.tickets())
-        .where('userUid', isEqualTo: userUid);
+        .where('userUid', isEqualTo: userUid)
+        .orderBy('attendance');
     final Stream<QuerySnapshot> snapshots = ticketsQuery.snapshots();
 
     final EventsService eventsService = EventsService();

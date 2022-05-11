@@ -1,5 +1,6 @@
 import 'package:design_proposal/modules/events/screens/single.dart';
 import 'package:design_proposal/modules/events/widgets/event_card.dart';
+import 'package:design_proposal/screens/loading.dart';
 import 'package:design_proposal/services/events.dart';
 import 'package:flutter/material.dart';
 
@@ -40,7 +41,7 @@ class ExploreEvents extends StatelessWidget {
               return Container();
             }
           } else {
-            return Container();
+            return Loading();
           }
         });
   }

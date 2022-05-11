@@ -1,5 +1,6 @@
 import 'package:design_proposal/modules/tickets/widgets/ticket_card.dart';
 import 'package:design_proposal/providers/auth_provider.dart';
+import 'package:design_proposal/screens/loading.dart';
 import 'package:design_proposal/services/tickets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -37,7 +38,8 @@ class Tickets extends StatelessWidget {
               return Container();
             }
           } else {
-            return Container();
+            print(snapshot.error);
+            return Loading();
           }
         });
   }
