@@ -7,6 +7,8 @@ import 'package:design_proposal/providers/auth_provider.dart';
 import 'package:design_proposal/services/tickets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:design_proposal/screens/loading.dart';
+import 'package:collection/collection.dart';
 
 import '../../../models/event.dart';
 
@@ -88,7 +90,7 @@ class _SingleEventState extends State<SingleEvent> {
                 ],
               )
             : Container(),
-        body: isEventOwner ? ownerView(context) : Container());
+        body: isEventOwner ? ownerView(context) : visitorView(context, auth));
   }
 
   Widget ownerView(BuildContext context) {
@@ -137,6 +139,53 @@ class _SingleEventState extends State<SingleEvent> {
         }
       },
     );
+  }
+
+  Widget visitorView(BuildContext context, AuthProvider auth) {
+    final TicketsService ticketsService = TicketsService();
+    return StreamBuilder(
+        stream: ticketsService.listUserTicketsAsStream(auth.user!.uid),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            List<Ticket> tickets = snapshot.data as List<Ticket>;
+            final Ticket fbTicket = Ticket(
+                eventUid: event.uid!,
+                userUid: auth.user!.uid,
+                attendance: false,
+                holder: {
+                  'name': auth.user!.displayName!.split(' ')[0],
+                  'lastname': auth.user!.displayName!.split(' ')[1]
+                });
+
+            var listedTicket = tickets.firstWhereOrNull((item) => item.eventUid == fbTicket.eventUid && item.userUid == fbTicket.userUid);
+
+            return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                      child: Text(event.description,
+                          style: const TextStyle(fontSize: 18))),
+                  const SizedBox(height: 100),
+                  Center(
+                    child: listedTicket == null
+                        ? TextButton(
+                            onPressed: () {
+                              if (fbTicket == null) {
+                                ticketsService.setTicket(fbTicket);
+                              } else {
+                                ticketsService.addTicket(fbTicket);
+                              }
+                            },
+                            child: const Text('Join Event',
+                                style: TextStyle(fontSize: 16)))
+                        : const Text('You are already a participant', style: TextStyle(fontSize: 16, color: Colors.blueAccent)),
+                  )
+                ]);
+          } else {
+            print(snapshot.error);
+            return Loading();
+          }
+        });
   }
 
   void _buildEventSettingsBottomSheet(BuildContext context) {
