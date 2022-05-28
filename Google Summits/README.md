@@ -2,21 +2,24 @@
 
 This app is a prototype where we are intregating the efforts of both teams, the one in charge of creating the UI and the QR code functionality and the Firebase team.
 
-## Features
+## Features 
 
 This project currently holds the following features:
 
+### Events
 - [x] Create event.
 - [x] Update event.
 - [ ] Delete event.
-- [x] Add tickets to an event.
-- [ ] Remove ticket from event.
 - [x] List every public event in the Explore tab.
 - [ ] Paginate public events in the Explore tab.
 - [x] List events owned per user.
 - [ ] Paginate events owned per user.
+### Tickets
+- [x] Add tickets to an event.
+- [ ] Remove ticket from event.
 - [x] List tickets hold per user.
 - [ ] Paginate tickets hold per user.
+### Scan
 - [x] Show assistants to organizer per event.
 - [ ] Paginate assistants per event.
 - [x] Scan ticket and update its participation.
@@ -228,3 +231,13 @@ Every service file is supported by the firestore client, which is an abstract im
 1. `main.dart` - Main application class.
 2. `generated_plugin_registrant.dart` - Generated file by Firebase
 3. `firebase_options.dart` - Generated file by FlutterFire CLI.
+
+### Extra Resources
+
+- [Flutter 101](https://www.youtube.com/watch?v=nlTBwNqvVn8).
+- [Starting with flutter](https://www.youtube.com/watch?v=mTErlB_wT6A&list=PLCKuOXG0bPi1_ZY2c9LU7MvvtWk82x1wB).
+- [Udemy Course](https://www.udemy.com/course/flutter-ios-android-fernando-herrera/).
+- [Widget of the day](https://www.youtube.com/watch?v=1OPDUhgrI24&list=PLCKuOXG0bPi2GD3Bq55ysZfQJz2k-LiEz).
+- [Firebase](https://firebase.flutter.dev/docs/overview/).
+- [Cloudinary(Image REST API)](https://cloudinary.com/documentation/image_upload_api_reference).
+
