@@ -10,7 +10,7 @@ This project currently holds the following features:
 
 - [x] Create event.
 - [x] Update event.
-- [ ] Delete event.
+- [x] Delete event.
 - [x] List every public event in the Explore tab.
 - [ ] Paginate public events in the Explore tab.
 - [x] List events owned per user.
@@ -19,7 +19,7 @@ This project currently holds the following features:
 ### Tickets
 
 - [x] Add tickets to an event.
-- [ ] Remove ticket from event.
+- [x] Remove ticket from event (as dismissables).
 - [x] List tickets hold per user.
 - [ ] Paginate tickets hold per user.
 
