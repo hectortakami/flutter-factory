@@ -29,6 +29,20 @@ This project currently holds the following features:
 - [ ] Paginate assistants per event.
 - [x] Scan ticket and update its participation.
 
+## Future improvements
+
+Some of the improvements described below are expected to be done in the near future by upcoming teams. Take in consideration that from the features described above, those left uncheked, must be considered as future enhancements as well. Nonetheless, they will not be listed to avoid redundancy.
+
+Also, remember that as every agile project, feature priority can changed as needed. Features might be ditched if considered irrelevant.
+
+- [ ] Create a sitting chart UI (consider using a canvas/painting to allow owner to create its own sitting chart).
+- [ ] If the event has sitting chart set, then every ticket must be given a seat (either the owner of the event chooses it, or the participants).
+- [ ] [Localize](https://docs.flutter.dev/development/accessibility-and-localization/internationalization) the app.
+- [ ] Allow users to filter events.
+- [ ] Show events according to user geolocation.
+- [ ] Send ticket through email.
+- [ ] Notifications of upcoming events (hour-wise).
+
 ## Pre-requisites
 
 ---
@@ -237,7 +251,7 @@ Every service file is supported by the firestore client, which is an abstract im
 2. `generated_plugin_registrant.dart` - Generated file by Firebase
 3. `firebase_options.dart` - Generated file by FlutterFire CLI.
 
-### Extra Resources
+## Extra Resources
 
 - [Flutter 101](https://www.youtube.com/watch?v=nlTBwNqvVn8).
 - [Starting with flutter](https://www.youtube.com/watch?v=mTErlB_wT6A&list=PLCKuOXG0bPi1_ZY2c9LU7MvvtWk82x1wB).

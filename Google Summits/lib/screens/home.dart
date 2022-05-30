@@ -52,10 +52,12 @@ class _HomeState extends State<Home> {
             ),
             const Padding(padding: EdgeInsets.only(right: 4)),
           ],
-          leading: IconButton(
-            onPressed: () => {},
-            icon: const Icon(Icons.menu, color: Colors.black, size: 24),
-          ),
+          /** Left as comment for future improvements. 
+            IconButton(
+              onPressed: () => {},
+              icon: const Icon(Icons.menu, color: Colors.black, size: 24),
+            ), 
+          */
         ),
         floatingActionButton: _currentIndex == 0
             ? Row(
