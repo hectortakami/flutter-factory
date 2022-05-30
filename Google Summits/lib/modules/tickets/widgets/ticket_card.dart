@@ -127,6 +127,11 @@ class TicketCard extends StatelessWidget {
                 ),
               ));
         } else {
+          // Take note, that when an event is deleted, its ticket will remain
+          // but they won't be showed to the user, since this card requires
+          // strictly for the stream event to be a non-null.
+          // Therefore, those tickets where its event was deleted, it
+          // will be fetched as a null stream.
           return Container();
         }
       },

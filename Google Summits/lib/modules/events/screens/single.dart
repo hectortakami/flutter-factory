@@ -4,6 +4,7 @@ import 'package:design_proposal/modules/events/widgets/assistant_tile.dart';
 import 'package:design_proposal/modules/qr_scanner/screens/qr_scanner.dart';
 import 'package:design_proposal/modules/tickets/screens/form.dart';
 import 'package:design_proposal/providers/auth_provider.dart';
+import 'package:design_proposal/services/events.dart';
 import 'package:design_proposal/services/tickets.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -105,10 +106,23 @@ class _SingleEventState extends State<SingleEvent> {
             return ListView.separated(
               itemCount: tickets.length,
               itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () => {},
-                  child: AssistantTile(ticket: tickets[index]),
-                );
+                return Dismissible(
+                    key: Key(tickets[index].uid!),
+                    direction: DismissDirection.endToStart,
+                    background: Container(
+                        alignment: Alignment.centerRight,
+                        color: Colors.red,
+                        child: Padding(
+                            padding: EdgeInsets.only(right: 4),
+                            child: Text(
+                              'Remove from event',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ))),
+                    onDismissed: (_) =>
+                        ticketsService.deleteTicket(tickets[index]),
+                    child: AssistantTile(ticket: tickets[index]));
               },
               separatorBuilder: (context, index) {
                 return const Divider(height: 0.5);
@@ -212,9 +226,10 @@ class _SingleEventState extends State<SingleEvent> {
                 },
               ),
               ListTile(
-                title: const Text('Delete event'),
-                onTap: () => {},
-              ),
+                  title: const Text('Delete event'),
+                  onTap: () {
+                    _buildDeleteConfirmation(context);
+                  }),
               const ListTile(
                 title: Text(''),
               ),
@@ -224,5 +239,27 @@ class _SingleEventState extends State<SingleEvent> {
             ],
           );
         });
+  }
+
+  void _buildDeleteConfirmation(BuildContext context) {
+    final eventService = EventsService();
+    showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+              title: Text('Do you want to delete this event?'),
+              content: Text(
+                  'This event and its tickets will be deleted permanently.'),
+              actions: [
+                TextButton(
+                    onPressed: () async {
+                      await eventService.deleteEvent(event);
+                      int count = 0;
+                      Navigator.of(context).popUntil((_) => count++ >= 3);
+                    },
+                    child: Text('Yes')),
+                TextButton(
+                    onPressed: () => Navigator.pop(context), child: Text('No')),
+              ],
+            ));
   }
 }

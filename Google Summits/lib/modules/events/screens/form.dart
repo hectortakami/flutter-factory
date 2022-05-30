@@ -80,14 +80,15 @@ class _EventFormState extends State<EventForm> {
                         },
                         ownerUid: auth.user!.uid,
                         isPublic: true);
+                    int count = 0;
 
                     if (event != null) {
                       eventService.setEvent(fbEvent);
+                      Navigator.of(context).popUntil((_) => count++ >= 2);
                     } else {
                       eventService.addEvent(fbEvent);
+                      Navigator.pop(context);
                     }
-                    int count = 0;
-                    Navigator.of(context).popUntil((_) => count++ >= 2);
                   }
                 },
                 child: Text(event != null ? 'Update' : 'Save',
@@ -137,18 +138,20 @@ class _EventFormState extends State<EventForm> {
                                   initialDate: DateTime.now(),
                                   firstDate: DateTime.now(),
                                   lastDate: DateTime(DateTime.now().year + 10));
-          
+
                               if (pickedDate != null) {
                                 String formattedDate =
                                     DateFormat('yyyy-MM-dd').format(pickedDate);
-          
+
                                 setState(() {
                                   dateController.text = formattedDate;
                                 });
                               }
                             },
                             validator: (value) {
-                              return value!.isEmpty ? 'Please insert the date' : null;
+                              return value!.isEmpty
+                                  ? 'Please insert the date'
+                                  : null;
                             },
                           ),
                           CustomTextFormField(
@@ -159,7 +162,7 @@ class _EventFormState extends State<EventForm> {
                               TimeOfDay time = TimeOfDay.now();
                               TimeOfDay? pickedTime = await showTimePicker(
                                   context: context, initialTime: time);
-          
+
                               if (pickedTime != null) {
                                 String formattedHour =
                                     pickedTime.hour.toString().length < 2
@@ -169,7 +172,7 @@ class _EventFormState extends State<EventForm> {
                                     pickedTime.minute.toString().length < 2
                                         ? "0" + pickedTime.minute.toString()
                                         : pickedTime.minute.toString();
-          
+
                                 setState(() {
                                   timeController.text =
                                       formattedHour + ":" + formattedMinute;
@@ -177,7 +180,9 @@ class _EventFormState extends State<EventForm> {
                               }
                             },
                             validator: (value) {
-                              return value!.isEmpty ? 'Please insert the time' : null;
+                              return value!.isEmpty
+                                  ? 'Please insert the time'
+                                  : null;
                             },
                           ),
                           CustomTextFormField(
