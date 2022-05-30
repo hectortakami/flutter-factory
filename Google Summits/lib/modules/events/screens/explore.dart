@@ -38,6 +38,8 @@ class ExploreEvents extends StatelessWidget {
                 },
               );
             } else {
+              // TODO: Add a empty state widget indicating to create an event or
+              // anything ad hoc.
               return Container();
             }
           } else {

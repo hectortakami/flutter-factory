@@ -64,8 +64,7 @@ class _TicketFormState extends State<TicketForm> {
                     style: TextStyle(fontSize: 16, color: Colors.grey[700])))
           ],
           title: const Text('Add ticket',
-              style: TextStyle(
-                  color: Colors.black, fontFamily: 'ProductSans')),
+              style: TextStyle(color: Colors.black, fontFamily: 'ProductSans')),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16),

@@ -90,10 +90,10 @@ class _SingleEventState extends State<SingleEvent> {
                 ],
               )
             : Container(),
-        body: isEventOwner ? ownerView(context) : visitorView(context, auth));
+        body: isEventOwner ? OwnerView(context) : VisitorView(context, auth));
   }
 
-  Widget ownerView(BuildContext context) {
+  Widget OwnerView(BuildContext context) {
     final TicketsService ticketsService = TicketsService();
 
     return StreamBuilder(
@@ -141,7 +141,7 @@ class _SingleEventState extends State<SingleEvent> {
     );
   }
 
-  Widget visitorView(BuildContext context, AuthProvider auth) {
+  Widget VisitorView(BuildContext context, AuthProvider auth) {
     final TicketsService ticketsService = TicketsService();
     return StreamBuilder(
         stream: ticketsService.listUserTicketsAsStream(auth.user!.uid),
@@ -157,7 +157,9 @@ class _SingleEventState extends State<SingleEvent> {
                   'lastname': auth.user!.displayName!.split(' ')[1]
                 });
 
-            var listedTicket = tickets.firstWhereOrNull((item) => item.eventUid == fbTicket.eventUid && item.userUid == fbTicket.userUid);
+            var listedTicket = tickets.firstWhereOrNull((item) =>
+                item.eventUid == fbTicket.eventUid &&
+                item.userUid == fbTicket.userUid);
 
             return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -178,11 +180,12 @@ class _SingleEventState extends State<SingleEvent> {
                             },
                             child: const Text('Join Event',
                                 style: TextStyle(fontSize: 16)))
-                        : const Text('You are already a participant', style: TextStyle(fontSize: 16, color: Colors.blueAccent)),
+                        : const Text('You are already a participant',
+                            style: TextStyle(
+                                fontSize: 16, color: Colors.blueAccent)),
                   )
                 ]);
           } else {
-            print(snapshot.error);
             return Loading();
           }
         });

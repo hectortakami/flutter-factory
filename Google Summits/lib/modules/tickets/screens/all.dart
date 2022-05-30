@@ -38,7 +38,6 @@ class Tickets extends StatelessWidget {
               return Container();
             }
           } else {
-            print(snapshot.error);
             return Loading();
           }
         });
