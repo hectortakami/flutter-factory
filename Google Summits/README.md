@@ -49,7 +49,8 @@ Also, remember that as every agile project, feature priority can changed as need
 
 1. Install [Flutter](https://docs.flutter.dev/get-started/install).
 2. [Set up](https://docs.flutter.dev/get-started/editor) an editor.
-3. Run the following command and ensure everything in the output is checked.
+3. Ensure Dart SDK is at least `2.16` and less than `3`.
+4. Run the following command and ensure everything in the output is checked.
 
 ```zsh
 flutter doctor
