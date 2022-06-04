@@ -246,6 +246,13 @@ Every service file is supported by the firestore client, which is an abstract im
 
 1. `home.dart` - Home screen, where the main `NavigationBar` is set, as well as the stack.
 
+### Dependencies
+
+- Material
+- Mobile Scanner
+- QR Flutter
+- Firebase core
+
 ### Application
 
 1. `main.dart` - Main application class.
